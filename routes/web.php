@@ -21,3 +21,4 @@ Route::post('/loginadmin','NakulaController@loginadmin');
 Route::post('/uploadsekolah','NakulaController@uploadsekolah');
 Route::get('/sekolah','NakulaController@sekolah')->name('sekolah');
 Route::get('/dashboard','NakulaController@dashboard')->name('dashboard');
+Route::get('/admin','NakulaController@admin')->name('admin');

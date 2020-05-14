@@ -20,9 +20,18 @@ class NakulaController extends Controller
     {
         return view ('superadmin.sekolah');
     }
+
     public function dashboard()
     {
         return view('superadmin.dashboard');
+    }
+
+    public function admin()
+    {
+
+        $admin = DB::table('admin')->get();
+        
+        return view('superadmin.adminsekolah', ['admin' => $admin]);
     }
     
     /**
