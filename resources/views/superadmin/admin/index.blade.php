@@ -134,11 +134,13 @@
                 <div class="row">
                     <div class="col">
                         <label for="id_sekolah">Nama Sekolah</label>
-           
-                        <select name="id_sekolah" class="form-control" id="id_sekolah">
+        <select name="id_sekolah" class="form-control" id="id_sekolah">
                           @foreach ($admin as $data)
                           <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option>
                           {{-- {{print_r($data)}} --}}
+                        <select name="id_sekolah" id="id_sekolah">
+                          @foreach ($admin as $data)
+                          <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option>
                           @endforeach
                         </select>
                     </div>

@@ -16,7 +16,11 @@ class NakulaController extends Controller
     {
         return view('superadmin.dashboard');
         
+        //
     }
+   
+
+    
 
  
     
@@ -97,7 +101,6 @@ class NakulaController extends Controller
     {
         //
     }
-    
 
     /**
      * Display the specified resource.
