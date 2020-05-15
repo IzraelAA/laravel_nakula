@@ -28,10 +28,31 @@ class NakulaController extends Controller
 
     public function admin()
     {
-
-        $admin = DB::table('admin')->get();
-        
+        $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->get();
         return view('superadmin.adminsekolah', ['admin' => $admin]);
+    }
+    public function tambahadmin(Request $request){
+
+        $this->validate($request,[
+            'name' => 'required',
+            'password' => 'required',
+            'level' => 'required',
+            'id_sekolah' => 'required'
+        ]);
+        DB::table('admin')->insert([
+            'name' => request('name'),
+            'password' => request('password'),
+            'level' => request('level'),
+            'id_sekolah' => request('id_sekolah')
+        ]);
+        
+return redirect()->route('tambahadminlihat');
+    }
+    
+    public function tambahadminlihat()
+    {
+        $admin = DB::table('sekolah')->get();
+        return view('superadmin.tambahsekolah', ['admin' => $admin]);
     }
     
     /**

@@ -45,6 +45,7 @@
                                 <th scope="col">Nama</th>
                                 <th scope="col">Level</th>
                                 <th scope="col">Password</th>
+                                <th scope="col">Sekolah</th>
                                 <th scope="col">Aksi</th>
                               </tr>
                             </thead>
@@ -55,6 +56,7 @@
                                 <td>{{$data->name}}</td>
                                 <td>{{$data->level}}</td>
                                 <td>{{$data->password}}</td>
+                                <td>{{$data->nama_sekolah}}</td>
                                 <td class="d-flex">
                                     <a href="#" class="btn btn-small btn-primary">Edit</a>
                                     <a href="#" class="btn btn-small btn-danger">Hapus</a>
@@ -116,8 +118,12 @@
                 <div class="row">
                     <div class="col">
                         <label for="id_sekolah">Nama Sekolah</label>
+           
                         <select name="id_sekolah" id="id_sekolah">
-                            <option value=""></option>
+                          @foreach ($admin as $data)
+                          <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option>
+                          {{print_r($data)}}
+                          @endforeach
                         </select>
                     </div>
                 </div>
