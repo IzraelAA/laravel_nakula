@@ -34,33 +34,38 @@
             <div class="col-lg-10 col-md-7">
                 <div class="card">
                     <div class="card-body">
-                    <div class="action text-right">
-
-                        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Admin</a>
+                    @if (session('create'))
+                    <div class="alert alert-primary text-center">
+                        {{ session('create') }}
+            
                     </div>
+            @endif
+                    
                           <table class="table">
                             <thead class="thead-light">
                               <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Level</th>
-                                <th scope="col">Password</th>
-                                <th scope="col">Aksi</th>
+                                <th scope="col">Nama Sekolah</th>
+                                <th scope="col">Logo</th>
+                                <th scope="col" class="text-center">Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach ($admin as $data)
+                                <?php $i=1; ?>
+                                @foreach ($data as $item)
                               <tr>
-                                <th scope="row">1</th>
-                                <td>{{$data->name}}</td>
-                                <td>{{$data->level}}</td>
-                                <td>{{$data->password}}</td>
-                                <td class="d-flex">
-                                    <a href="#" class="btn btn-small btn-primary">Edit</a>
-                                    <a href="#" class="btn btn-small btn-danger">Hapus</a>
+                                <th scope="row"><?= $i?></th>
+                                
+                                <td>{{$item->nama_sekolah}}</td>
+                                <td><img src="{{url('assets/logo/'.$item->logo)}}" width="50px" alt=""></td>
+                                <td class="text-center" >
+                                    <a href="{{ route('sekolah.edit' , $item->id_sekolah) }}" class="btn btn-small btn-primary">Edit</a>
+                                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah </a>
+
                                 </td>
                                 
                               </tr>
+                              <?php $i++?>
                               @endforeach
                             </tbody>
                           </table>
@@ -84,50 +89,36 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Sekolah</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-         <form action="" method="post">
            
-                <div class="row">
-                  <div class="col">
-                      <label for="nama">Nama Admin</label>
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan Nama">
+        <form method="POST" action="{{route('sekolah.store')}}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label class="col-md-12">Sekolah</label>
+                    <div class="col-md-12">
+                        <input type="text" placeholder="Nama sekolah" name="name" id="name" class="form-control form-control-line">
+                    </div>
+                </div>  
+                <div class="form-group">
+                    <label class="col-md-12">Logo</label>
+                    <div class="col-md-12">
+                        <input type="file" name="logo" id="logo">
+                    </div>
+                </div>  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                   </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="level">Level</label>
-                    <select class="form-control" name="level" id="level">
-                        <option>Pilih Level</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Masukan Password">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="id_sekolah">Nama Sekolah</label>
-                        <select name="id_sekolah" id="id_sekolah">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
+            </form>
               
-         </form>
+        
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        
       </div>
     </div>
   </div>

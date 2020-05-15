@@ -13,12 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
-
+Route::get('/', 'NakulaController@login')->name('login');
 Route::post('/loginadmin','NakulaController@loginadmin');
-Route::post('/uploadsekolah','NakulaController@uploadsekolah');
-Route::get('/sekolah','NakulaController@sekolah')->name('sekolah');
-Route::get('/dashboard','NakulaController@dashboard')->name('dashboard');
-Route::get('/admin','NakulaController@admin')->name('admin');
+Route::resource('admin', 'AdminController');
+Route::resource('sekolah', 'SekolahController');
+Route::resource('nakula', 'NakulaController');

@@ -9,30 +9,19 @@ class NakulaController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
-    }
-    public function sekolah()
-    {
-        return view ('superadmin.sekolah');
-    }
-
-    public function dashboard()
-    {
         return view('superadmin.dashboard');
-    }
-
-    public function admin()
-    {
-
-        $admin = DB::table('admin')->get();
         
-        return view('superadmin.adminsekolah', ['admin' => $admin]);
     }
+
+ 
+    
+    
+  
     
     /**
      * Show the form for creating a new resource.
@@ -44,6 +33,10 @@ class NakulaController extends Controller
         //
     }
 
+    public function login (){
+        return view('login');
+    }
+
     public function loginadmin(Request $request)
     {
         $this->validate($request,[
@@ -52,7 +45,7 @@ class NakulaController extends Controller
         ]);
         $tb_login = DB::table('admin')->where(
             'name','=',request('name'))->where(
-                'password','=',request('password')
+            'password','=',request('password')
             )->count();
             if($tb_login==1){
                 $tb_acc = DB::table('admin')->where(
@@ -62,12 +55,34 @@ class NakulaController extends Controller
                 )->count(); 
                 if($tb_acc ==1){ 
                     
-                    return redirect()->route('dashboard');
-                }else{ 
-                    return redirect()->route('sekolah');
+                    return redirect()->route('nakula.index');
+                }else{
+                    $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->where(
+                        'name','=',request('name')
+                    )->get();
+                    $name="";
+                    $name_sekolah="";
+                    $id_sekolah="";
+                    $id="";
+                    foreach ($admin as $key => $value) {
+                        $name=$value->name;
+                        $name_sekolah=$value->nama_sekolah;
+                        $id_sekolah = $value->id_sekolah;
+                        $id = $value->id;
+                        $logo = $value->logo;
+                    }
+                                
+                    $request->session()->put('name',$name);
+                    $request->session()->put('nama_sekolah',$name_sekolah);
+                    $request->session()->put('id_sekolah',$id_sekolah);
+                    $request->session()->put('id',$id);
+                    $request->session()->put('logo1',$logo);
+
+                    return redirect()->route('sekolah.index');
                 };
             }else{ 
-                return view("login");
+                return redirect()->route('login')->with('create', 'Gagal Login!!');
+
             }
 
     }
@@ -82,27 +97,7 @@ class NakulaController extends Controller
     {
         //
     }
-    public function uploadsekolah(Request $request)
-    {
-        $this->validate($request,[
-            'name' => 'required',
-            'logo' => 'required',
-        ]);
-        $file = $request->file('logo');
-  
-
-        // isi dengan nama folder tempat kemana file diupload
-$tujuan_upload = 'assets/logo';
-
-      // upload file
-$file->move($tujuan_upload,$file->getClientOriginalName());
-DB::table('sekolah')->insert([
-    'nama_sekolah' => request('name'),
-    'logo' => $file->getClientOriginalName()
-]);
-
-return redirect()->route('dashboard');
-    }
+    
 
     /**
      * Display the specified resource.

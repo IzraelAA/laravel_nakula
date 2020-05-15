@@ -25,7 +25,7 @@
 <![endif]-->
 </head>
 
-<body class="fix-header card-no-border">
+<body class="fix-header card-no-border" style=" background-image: linear-gradient(to right, red , yellow); height:100vh; position: relative;">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -41,30 +41,34 @@
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
         
-        <div class="row">
+      <div class="container"  >
+        <div class="row justify-content-center" style="padding: 100px">
+            
             <!-- Column -->
-            <div class="col-lg-4 col-xlg-3 col-md-5">
-                <div class="card">
-                    <div class="card-block">
-                        <center class="m-t-30"> <img src="../assets/images/users/5.jpg" class="img-circle" width="150" />
-                            <h4 class="card-title m-t-10">Nakula Edu</h4>
-                            <h6 class="card-subtitle">Sans-Group corp</h6>
-                           
-                        </center>
+            <!-- Column -->
+            <div class="col-lg-6  col-md-6">
+
+                <div class="card" style="border:1px solid #000; padding: 40px">
+                    @if (session('create'))
+                    <div class="alert alert-danger text-center">
+                        {{ session('create') }}
+            
                     </div>
-                </div>
-            </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-8 col-xlg-9 col-md-7">
-                <div class="card">
-                    <div class="card-block">
+            @endif
+                      
+                    <div class="card-head text-center">
+                        
+                            <h5>Silahkan Login</h5>
+                        
+                    </div>
+                    <div class="card-body">
+                        
                         <form method="POST" action="/loginadmin">
                             @csrf
                             <div class="form-group">
                                 <label class="col-md-12">Name</label>
                                 <div class="col-md-12">
-                                    <input type="text" placeholder="Nama" id="name" name="name" class="form-control form-control-line">
+                                    <input type="text" placeholder="Nama" id="name" name="name" required class="form-control form-control-line">
                                 </div>
                             </div> 
                             <div class="form-group">
@@ -84,6 +88,7 @@
             </div>
             <!-- Column -->
         </div>
+      </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
