@@ -16,9 +16,13 @@ class NakulaController extends Controller
     {
         //
     }
-    public function sekolah()
-    {
-        return view ('superadmin.sekolah');
+    public function sekolah(Request $request)
+    { 
+        $data['logo'] = $request->session()->get('logo1');
+        $data['nama'] = $request->session()->get('nama_sekolah');
+        $data['name'] = $request->session()->get('name');
+        print_r($data);
+        // return view ('superadmin.sekolah',['data' => $data]);
     }
 
     public function dashboard()
@@ -46,7 +50,7 @@ class NakulaController extends Controller
             'id_sekolah' => request('id_sekolah')
         ]);
         
-return redirect()->route('tambahadminlihat');
+    return redirect()->route('tambahadminlihat');
     }
     
     public function tambahadminlihat()
@@ -73,7 +77,7 @@ return redirect()->route('tambahadminlihat');
         ]);
         $tb_login = DB::table('admin')->where(
             'name','=',request('name'))->where(
-                'password','=',request('password')
+            'password','=',request('password')
             )->count();
             if($tb_login==1){
                 $tb_acc = DB::table('admin')->where(
@@ -84,7 +88,28 @@ return redirect()->route('tambahadminlihat');
                 if($tb_acc ==1){ 
                     
                     return redirect()->route('dashboard');
-                }else{ 
+                }else{
+                    $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->where(
+                        'name','=',request('name')
+                    )->get();
+                    $name="";
+                    $name_sekolah="";
+                    $id_sekolah="";
+                    $id="";
+                    foreach ($admin as $key => $value) {
+                        $name=$value->name;
+                        $name_sekolah=$value->nama_sekolah;
+                        $id_sekolah = $value->id_sekolah;
+                        $id = $value->id;
+                        $logo = $value->logo;
+                    }
+                                
+                    $request->session()->put('name',$name);
+                    $request->session()->put('nama_sekolah',$name_sekolah);
+                    $request->session()->put('id_sekolah',$id_sekolah);
+                    $request->session()->put('id',$id);
+                    $request->session()->put('logo1',$logo);
+
                     return redirect()->route('sekolah');
                 };
             }else{ 
@@ -113,14 +138,14 @@ return redirect()->route('tambahadminlihat');
   
 
         // isi dengan nama folder tempat kemana file diupload
-$tujuan_upload = 'assets/logo';
+        $tujuan_upload = 'assets/logo';
 
-      // upload file
-$file->move($tujuan_upload,$file->getClientOriginalName());
-DB::table('sekolah')->insert([
-    'nama_sekolah' => request('name'),
-    'logo' => $file->getClientOriginalName()
-]);
+        // upload file
+        $file->move($tujuan_upload,$file->getClientOriginalName());
+        DB::table('sekolah')->insert([
+            'nama_sekolah' => request('name'),
+            'logo' => $file->getClientOriginalName()
+        ]);
 
 return redirect()->route('dashboard');
     }
