@@ -104,13 +104,13 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li>
-                        <a href="{{route('nakula.index')}}" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
+                        <a href="{{route('guru.index')}}" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
                         <li>
-                        <a href="{{route('admin.index')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Data Guru</a>
+                        <a href="{{route('guru.index')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Data Guru</a>
                         </li> 
                         <li>
-                        <a href="{{route('sekolah.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Data Sekolah</a>
+                        <a href="{{route('guru.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Jadwal</a>
                         </li>
                         
                     </ul>

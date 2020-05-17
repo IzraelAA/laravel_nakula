@@ -1,4 +1,4 @@
-@extends('superadmin.dashboard')
+@extends('superadmin.dashboardguru')
 
 @section('content')
     
@@ -11,7 +11,7 @@
             <h3 class="text-themecolor m-b-0 m-t-0">Profile</h3>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active">Admin</li>
+                <li class="breadcrumb-item active">Guru</li>
             </ol>
         </div>
         {{-- <div class="col-md-6 col-4 align-self-center">
@@ -33,38 +33,34 @@
             <!-- Column -->
             <div class="col-lg-6 col-md-6">
                 <div class="card">
-                    @if (session('create'))
-                    <div class="alert alert-primary text-center">
-                        {{ session('create') }}
-            
-                    </div>
-            @endif
                     <div class="card-body">
 
-                    <form action="{{route('mapel.store')}}" method="post">
+                    <form action="{{route('guru.store')}}" method="post">
                             @csrf           
                                 <div class="row">
                                   <div class="col">
-                                      <label for="nama">Nama Mata Pelajaran</label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Contoh B indonesia">
+                                      <label for="nama">Nama Guru</label>
+                                  <input type="hidden" name="id_sekolah" value="{{$data['id']}}">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Masukan Nama">
                                   </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <label for="id_guru">Nama Guru</label>
-                            
-                                        <select name="id_guru" class="form-control" id="id_guru">
-                                          @foreach ($mapel as $data)
-                                          <option value={{$data->id}}>{{$data->name}}</option>
-                                          {{-- {{print_r($data)}} --}}
-                                          @endforeach
-                                        </select>
+                                        <label for="nik">Nik</label>
+                                        <input type="text" class="form-control" name="nik" id="nik" placeholder="Masukan Nik">
+                                   
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="password">Password</label>
+                                      <input type="password" class="form-control" id="password" name="password" required placeholder="Masukan Password">
                                     </div>
                                 </div>
                               
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
                             </form>
                        
