@@ -22,6 +22,9 @@ class MapelController extends Controller
         $admin = DB::table('mata_pelajaran')->get();
     }
 
+
+
+
     public function tambahmapel(Request $request)
     {
         $this->validate($request, [
@@ -47,11 +50,9 @@ class MapelController extends Controller
         return view('superadmin.mapel.mapel', ['mapel' => $mapel]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function create()
     {
         //
@@ -75,6 +76,7 @@ class MapelController extends Controller
         ]);
 
         return redirect()->route('mata_pelajaran')->with('create', 'Data Berhasil Ditambah!!');
+        //
     }
 
     /**

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'NakulaController@login')->name('login');
 Route::get('/mata_pelajaran', 'MapelController@tambahmapelview')->name('mata_pelajaran');
 Route::post('/loginadmin', 'NakulaController@loginadmin');
+Route::get('/mata_pelajaran', 'MapelController@tambahmapelview');
+Route::post('/loginadmin', 'NakulaController@loginadmin');
 Route::resource('admin', 'AdminController');
 Route::resource('sekolah', 'SekolahController');
 Route::resource('nakula', 'NakulaController');

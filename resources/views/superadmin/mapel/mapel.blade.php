@@ -42,11 +42,15 @@
                     <div class="card-body">
 
                     <form action="{{route('mapel.store')}}" method="post">
+                    <div class="card-body">
+
+                    <form action="" method="post">
                             @csrf           
                                 <div class="row">
                                   <div class="col">
                                       <label for="nama">Nama Mata Pelajaran</label>
                                     <input type="text" class="form-control" name="name" id="name" placeholder="Contoh B indonesia">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Masukan Nama">
                                   </div>
                                 </div>
                                 <div class="row">
@@ -56,7 +60,12 @@
                                         <select name="id_guru" class="form-control" id="id_guru">
                                           @foreach ($mapel as $data)
                                           <option value={{$data->id}}>{{$data->name}}</option>
-                                          {{-- {{print_r($data)}} --}}
+                                        <label for="id_sekolah">Nama Guru</label>
+                            
+                                        <select name="id_sekolah" class="form-control" id="id_sekolah">
+                                          @foreach ($mapel as $data)
+                                          <option value={{$data->id}}>{{$data->name}}</option>
+                                          {{print_r($data)}}
                                           @endforeach
                                         </select>
                                     </div>
@@ -65,6 +74,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
                             </form>
                        
