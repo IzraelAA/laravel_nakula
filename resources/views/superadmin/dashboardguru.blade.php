@@ -107,14 +107,11 @@
                         <a href="{{route('nakula.index')}}" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Dashboard</a>
                         </li>
                         <li>
-                        <a href="{{route('admin.index')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Data Admin</a>
+                        <a href="{{route('admin.index')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Data Guru</a>
                         </li> 
                         <li>
                         <a href="{{route('sekolah.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Data Sekolah</a>
                         </li>
-                        <li>
-                            <a href="{{route('mata_pelajaran')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Mata Pelajaran</a>
-                            </li> 
                         
                     </ul>
                     {{-- <div class="text-center m-t-30">
