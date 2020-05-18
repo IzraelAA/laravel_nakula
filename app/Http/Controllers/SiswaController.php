@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GuruController extends Controller
+class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +14,17 @@ class GuruController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $data['id'] = $request->session()->get('id_sekolah');
-        $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
+        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+        $siswa = DB::table('siswa')->where('id_sekolah', $data['id'])->get();
+        $relasi = DB::table('siswa')
+            ->join('kelas', 'siswa.id_kelas', '=', 'kelas.id')
+            ->join('sekolah', 'siswa.id_sekolah', '=', 'sekolah.id_sekolah')
+            ->where('sekolah.id_sekolah', $data['id'])
+            ->get();
+        // var_dump($relasi);
 
-        return view('superadmin.guru.index', ['data' => $mapel]);
+        return view('superadmin.siswa.index', ['data' => $siswa, 'kelas' => $kelas, 'relasi' => $relasi]);
     }
 
     /**
@@ -28,12 +32,9 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        // $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
-        return view('superadmin.guru.insert', ['data' => $data]);
+        // $siswa = DB::table('kelas')->get();
     }
 
     /**
@@ -46,17 +47,20 @@ class GuruController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'nik' => 'required'
+            'nis' => 'required',
+            'password' => 'required'
         ]);
 
-        DB::table('guru')->insert([
+        DB::table('siswa')->insert([
+
             'id_sekolah' => request('id_sekolah'),
-            'name' => request('name'),
-            'nik' => request('nik'),
+            'id_kelas' => request('id_kelas'),
+            'nama_siswa' => request('name'),
+            'nis' => request('nis'),
             'password' => request('password'),
         ]);
 
-        return redirect()->route('guru.index')->with('create', 'Guru Berhasil Ditambah!!');
+        return redirect()->route('siswa.index')->with('create', 'Siswa Berhasil Ditambah!!');
     }
 
     /**
@@ -101,8 +105,8 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('guru')->where('id', $id)->delete();
+        DB::table('siswa')->where('id', $id)->delete();
 
-        return redirect()->route('guru.index')->with('create', 'Data Berhasil Dihapus!!');
+        return redirect()->route('siswa.index')->with('create', 'Data Berhasil Dihapus!!');
     }
 }

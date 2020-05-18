@@ -21,3 +21,5 @@ Route::resource('sekolah', 'SekolahController');
 Route::resource('nakula', 'NakulaController');
 Route::resource('mapel', 'MapelController');
 Route::resource('guru', 'GuruController');
+Route::resource('kelas', 'KelasController');
+Route::resource('siswa', 'SiswaController');

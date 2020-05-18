@@ -43,14 +43,13 @@
     @endif
                     <div class="action text-right">
 
-                    <a href="{{route('guru.create')}}" class="btn btn-success" ><i class="fa fa-plus"></i> Tambah Guru</a>
+                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Kelas</a>
                     </div>
                           <table class="table">
                             <thead class="thead-light">
                               <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Nik</th>
+                                <th scope="col" class="text-center">Nama Kelas</th>
                                 
                                 <th scope="col" class="text-center">Aksi</th>
                               </tr>
@@ -58,24 +57,26 @@
                             <tbody>
 
                                 <?php $i=1 ;?>
-                            @foreach ($data as $item)
+                            @forelse ($data as $item)
                             <tr>
-                                <th scope="row"><?=$i;?></th>
-                            <td>{{$item->name}}</td>
-                            <td >{{$item->nik}}</td>
+                                <th scope="row"><?= $i;?></th>
+                                <td class="text-center">{{$item->name}}</td>
                                   <td class="text-center">
-                                    <a href="#" class="btn btn-primary">Edit</a>
-                                    <form action="{{ route('guru.destroy', $item->id) }}" method="POST" class="d-inline">
+                                      <a href="#" class="btn btn-primary">Edit</a>
+                                    <form action="{{ route('kelas.destroy', $item->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('delete')
 
                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
                                     </form>
                                 </td>
-                                  
-                                </tr>
-                                <?php $i++?>
-                            @endforeach
+                            </tr>
+                            <?php $i++?>
+                            @empty
+                            <tr>
+                               <td colspan="7" class="text-center">Data Kosong</td>
+                            </tr>
+                            @endforelse
                              
                             </tbody>
                           </table>
@@ -99,52 +100,30 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tambah Admin</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Kelas</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-        <form action="{{route('admin.store')}}" method="post">
-           
+        <form action="{{route('kelas.store')}}" method="post">
+           @csrf
                 <div class="row">
                   <div class="col">
-                      <label for="nama">Nama Admin</label>
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan Nama">
+                      <label for="name">Nama Kelas</label>
+                  <input type="hidden" name="id_sekolah" value="{{$data[0]->id_sekolah}}">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Masukan Nama Kelas">
                   </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="level">Level</label>
-                    <select class="form-control" name="level" id="level">
-                        <option>Pilih Level</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Masukan Password">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="id_sekolah">Nama Sekolah</label>
-        <select name="id_sekolah" class="form-control" id="id_sekolah">
-                          {{-- @foreach ($admin as $data) --}}
-                          {{-- <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option> --}}
-                          {{-- {{print_r($data)}} --}}
-                        
-                    </div>
-                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                  </div>
               
          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+       
       </div>
     </div>
   </div>

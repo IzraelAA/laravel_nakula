@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GuruController extends Controller
+class kelasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +14,10 @@ class GuruController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $data['id'] = $request->session()->get('id_sekolah');
-        $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
-
-        return view('superadmin.guru.index', ['data' => $mapel]);
+        // var_dump($data);
+        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+        return view('superadmin.kelas.index',['data' => $kelas]);
     }
 
     /**
@@ -28,12 +25,9 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        // $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
-        return view('superadmin.guru.insert', ['data' => $data]);
+        //
     }
 
     /**
@@ -46,17 +40,14 @@ class GuruController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'nik' => 'required'
         ]);
 
-        DB::table('guru')->insert([
+        DB::table('kelas')->insert([
             'id_sekolah' => request('id_sekolah'),
             'name' => request('name'),
-            'nik' => request('nik'),
-            'password' => request('password'),
         ]);
 
-        return redirect()->route('guru.index')->with('create', 'Guru Berhasil Ditambah!!');
+        return redirect()->route('kelas.index')->with('create', 'Kelas Berhasil Ditambah!!');
     }
 
     /**
@@ -101,8 +92,8 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('guru')->where('id', $id)->delete();
+        DB::table('kelas')->where('id', $id)->delete();
 
-        return redirect()->route('guru.index')->with('create', 'Data Berhasil Dihapus!!');
+        return redirect()->route('kelas.index')->with('create', 'Data Berhasil Dihapus!!');
     }
 }
