@@ -1,0 +1,48 @@
+//Login
+.login-container {
+    @media (min-width: 992px) {
+        background: linear-gradient(90deg, #ffffff 60%, #e4e6e8 40%);
+        width: 100vw;
+        height: 100vh;
+    }
+
+}
+
+.page-login {
+    height: 100vh;
+
+    .btn-login {
+        background-color: #ff857c;
+        color: #fff;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .section-left {
+        h1 {
+            font-family: "Playfair Display";
+            font-weight: bold;
+            font-size: 50px;
+            text-align: left;
+            color: #071c4d;
+        }
+    }
+
+    .section-right {
+        .card {
+            padding: 20px;
+            border: 1px solid grey;
+        }
+
+        a {
+            font-family: "Assistant";
+            font-weight: 300;
+            font-size: 16px;
+            text-decoration: underline;
+            text-align: center;
+            color: #bfbfbf;
+        }
+    }
+}

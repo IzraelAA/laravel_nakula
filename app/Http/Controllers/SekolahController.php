@@ -118,8 +118,8 @@ class SekolahController extends Controller
      */
     public function destroy($id)
     {
-        // DB::table('sekolah')->where('id_sekolah',$id)->delete();
+        DB::table('sekolah')->where('id_sekolah',$id)->delete();
         
-        // return redirect()->route('sekolah.index')->with('create', 'Data Berhasil Dihapus!!');
+        return redirect()->route('sekolah.index')->with('create', 'Data Berhasil Dihapus!!');
     }
 }

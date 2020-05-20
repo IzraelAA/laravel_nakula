@@ -12,49 +12,44 @@ class MapelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data['id'] = $request->session()->get('id_sekolah');
+        // $data = DB::table('mata_pelajaran')->get();
+        $relasi = DB::table('mata_pelajaran')
+            ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
+            ->join('kelas', 'mata_pelajaran.id_kelas', '=', 'kelas.id_kelas')
+            ->where('kelas.id_sekolah', $data['id'])
+            ->get();
+
+        // dd($relasi);
+        // die;
+
+        return view('superadmin.mapel.index', ['data' => $relasi]);
     }
 
     public function mapel()
     {
-        $admin = DB::table('mata_pelajaran')->get();
+        // $admin = DB::table('mata_pelajaran')->get();
     }
 
-    public function tambahmapel(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'id_guru' => 'required'
-        ]);
-
-        DB::table('mata_pelajaran')->insert([
-            'name' => request('name'),
-            'id_guru' => request('id_guru')
-        ]);
-    }
-
-    public function tambahmapelview(Request $request)
-    {
-        // $data['nama'] = $request->session()->get('id_sekolah');
-
-        // $mapel = DB::table('guru')->where('id_sekolah', $data['nama'])->get();
-        // var_dump($mapel);
-        // die;
-        $mapel = DB::table('guru')->get();
-
-        return view('superadmin.mapel.mapel', ['mapel' => $mapel]);
-    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data['id'] = $request->session()->get('id_sekolah');
+
+        $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+        // var_dump($mapel);
+        // die;
+        // $mapel = DB::table('guru')->get();
+
+        return view('superadmin.mapel.insert', ['mapel' => $mapel, 'kelas' => $kelas]);
     }
 
     /**
@@ -70,11 +65,12 @@ class MapelController extends Controller
 
         ]);
         DB::table('mata_pelajaran')->insert([
-            'name' => request('name'),
+            'nama_pelajaran' => request('name'),
             'id_guru' => request('id_guru'),
+            'id_kelas' => request('id_kelas'),
         ]);
 
-        return redirect()->route('mata_pelajaran')->with('create', 'Data Berhasil Ditambah!!');
+        return redirect()->route('mapel.index')->with('create', 'Data Berhasil Ditambah!!');
     }
 
     /**
@@ -94,9 +90,20 @@ class MapelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $data['id'] = $request->session()->get('id_sekolah');
+        $guru = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+
+        $mapel = DB::table('mata_pelajaran')
+            ->where('id_mapel', $id)->get();
+        // dd($kelas);
+        return view('superadmin.mapel.update', [
+            'mapel' => $mapel,
+            'guru' => $guru,
+            'kelas' => $kelas
+        ]);
     }
 
     /**
@@ -108,7 +115,15 @@ class MapelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('mata_pelajaran')
+            ->where('id_mapel', $id)
+            ->update([
+                'nama_pelajaran' => $request->name,
+                'id_guru' => $request->mapel,
+                'id_kelas' => $request->kelas,
+            ]);
+
+        return redirect()->route('mapel.index')->with('create', 'Data Berhasil Diupdate!!');
     }
 
     /**
@@ -119,6 +134,8 @@ class MapelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('mata_pelajaran')->where('id_mapel', $id)->delete();
+
+        return redirect()->route('mapel.index')->with('create', 'Data Berhasil Dihapus!!');
     }
 }

@@ -18,13 +18,13 @@ class SiswaController extends Controller
         $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
         $siswa = DB::table('siswa')->where('id_sekolah', $data['id'])->get();
         $relasi = DB::table('siswa')
-            ->join('kelas', 'siswa.id_kelas', '=', 'kelas.id')
+            ->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')
             ->join('sekolah', 'siswa.id_sekolah', '=', 'sekolah.id_sekolah')
             ->where('sekolah.id_sekolah', $data['id'])
             ->get();
-        // var_dump($relasi);
+        // dd($kelas);
 
-        return view('superadmin.siswa.index', ['data' => $siswa, 'kelas' => $kelas, 'relasi' => $relasi]);
+        return view('superadmin.siswa.index', ['siswa' => $siswa, 'kelas' => $kelas, 'relasi' => $relasi, 'data' => $data]);
     }
 
     /**
@@ -80,9 +80,15 @@ class SiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $data['id'] = $request->session()->get('id_sekolah');
+
+        $join = DB::table('siswa')->join('kelas', 'siswa.id_siswa', '=', 'kelas.id_sekolah')->where('kelas.id_sekolah', $data['id'])->get();
+        // dd($join);
+        $siswa = DB::table('siswa')->where('id_siswa', $id)->get();
+
+        return view('superadmin.siswa.update', ['siswa' => $siswa, 'join' => $join]);
     }
 
     /**
@@ -94,7 +100,11 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('siswa')
+            ->where('id_siswa', $id)
+            ->update(['id_sekolah' => $request->id_sekolah, 'nama_siswa' => $request->name, 'nis' => $request->nis, 'password' => $request->password, 'id_kelas' => $request->id_kelas]);
+
+        return redirect()->route('siswa.index')->with('create', 'Data Berhasil Diupdate!!');
     }
 
     /**
@@ -105,7 +115,7 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('siswa')->where('id', $id)->delete();
+        DB::table('siswa')->where('id_siswa', $id)->delete();
 
         return redirect()->route('siswa.index')->with('create', 'Data Berhasil Dihapus!!');
     }

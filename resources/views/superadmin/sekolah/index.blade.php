@@ -40,8 +40,11 @@
             
                     </div>
             @endif
-                    
-                          <table class="table">
+                    <div class="text-right">
+                      <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Sekolah</a>
+
+                    </div>
+                          <table class="table" id="Mytable">
                             <thead class="thead-light">
                               <tr>
                                 <th scope="col">#</th>
@@ -60,8 +63,12 @@
                                 <td><img src="{{url('assets/logo/'.$item->logo)}}" width="50px" alt=""></td>
                                 <td class="text-center" >
                                     <a href="{{ route('sekolah.edit' , $item->id_sekolah) }}" class="btn btn-small btn-primary">Edit</a>
-                                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah </a>
+                                    <form action="{{ route('sekolah.destroy', $item->id_sekolah) }}" method="POST" class="d-inline">
+                                      @csrf
+                                      @method('delete')
 
+                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
+                                  </form>
                                 </td>
                                 
                               </tr>

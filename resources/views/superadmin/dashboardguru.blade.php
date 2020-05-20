@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <title>Nakula Edu</title>
     <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link href="{{url('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -60,7 +61,7 @@
                         <!-- Logo text -->
                         <span>
                             <!-- dark Logo text -->
-                            <img src="../assets/images/nakula.jpeg" width="70px" alt="homepage" class="dark-logo" />
+                            <img src="{{url('assets/images/nakula.jpeg')}}" width="70px" alt="homepage" class="dark-logo" />
                         </span>
                     </a>
                 </div>
@@ -85,7 +86,7 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic m-r-5" />Admin</a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{url('assets/images/users/1.jpg')}}" alt="user" class="profile-pic m-r-5" />Admin</a>
                         </li>
                     </ul>
                 </div>
@@ -110,13 +111,16 @@
                         <a href="{{route('guru.index')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Data Guru</a>
                         </li> 
                         <li>
-                        <a href="{{route('guru.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Jadwal</a>
+                        <a href="{{route('jadwal.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Jadwal</a>
                         </li>
                         <li>
                             <a href="{{route('kelas.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Kelas</a>
                         </li>
                         <li>
                             <a href="{{route('siswa.index')}}" class="waves-effect"><i class="fa fa-users m-r-10" aria-hidden="true"></i>Siswa</a>
+                        </li>
+                        <li>
+                            <a href="{{route('mapel.index')}}" class="waves-effect"><i class="fa fa-users m-r-10" aria-hidden="true"></i>Mata pelajaran</a>
                         </li>
                     </ul>
                     {{-- <div class="text-center m-t-30">
@@ -136,9 +140,7 @@
         <div class="page-wrapper">
             
             @yield('content')
-            <footer class="footer text-center">
-                © 2020 Developed By nakula Edu
-            </footer>
+            @include('layouts.footer')
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -154,8 +156,8 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="{{url('assets/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{url('assets/plugins/bootstrap/js/tether.min.js')}}"></script>
@@ -163,17 +165,23 @@
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{url('assets/js/jquery.slimscroll.js')}}"></script>
     <!--Wave Effects -->
-<script src="{{url('assets/js/waves.js')}}"></script>
+    <script src="{{url('assets/js/waves.js')}}"></script>
     <!--Menu sidebar -->
-<script src="{{url('assets/js/sidebarmenu.js')}}"></script>
+    <script src="{{url('assets/js/sidebarmenu.js')}}"></script>
     <!--stickey kit -->
-<script src="{{url('assets/plugins/sticky-kit-master/dist/sticky-kit.min.js')}}"></script>
+    <script src="{{url('assets/plugins/sticky-kit-master/dist/sticky-kit.min.js')}}"></script>
     <!--Custom JavaScript -->
-<script src="{{url('assets/js/custom.min.js')}}"></script>
+    <script src="{{url('assets/js/custom.min.js')}}"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="{{url('assets/plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
+        <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#Mytable').DataTable();
+        } );
+    </script>
 </body>
 
 </html>

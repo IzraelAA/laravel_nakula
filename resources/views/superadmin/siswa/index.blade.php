@@ -28,6 +28,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-md-6">
+              <div class="card">
+                <div class="card-body">
             @if (session('create'))
                 <div class="alert alert-primary text-center">
                     {{ session('create') }}
@@ -36,7 +38,7 @@
              <div class="action text-right">
                 <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-plus"></i> Tambah Siswa</a>
             </div>
-            <table class="table">
+            <table class="table" id="Mytable">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">#</th>
@@ -55,11 +57,11 @@
                     <th scope="row"><?=$i;?></th>
                 <td>{{$item->nama_siswa}}</td>
                 <td >{{$item->nis}}</td>
-                <td >{{$item->name}}</td>
+                <td >{{$item->nama_kelas}}</td>
                 <td ><img src="{{url('assets/foto_siswa/', $item->foto) }}" width="50" class="rounded-circle" alt="gambar"></td>
                       <td class="text-center">
-                        <a href="#" class="btn btn-primary">Edit</a>
-                        <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" class="d-inline">
+                      <a href="{{route('siswa.edit',$item->id_siswa)}}" class="btn btn-primary">Edit</a>
+                        <form action="{{ route('siswa.destroy', $item->id_siswa) }}" method="POST" class="d-inline">
                             @csrf
                             @method('delete')
 
@@ -74,6 +76,8 @@
                 </tbody>
               </table>
             </div>
+          </div>
+          </div>
         </div>
     </div>
     <!-- Row -->
@@ -95,7 +99,7 @@
                      <div class="row">
                        <div class="col">
                            <label for="name">Nama Siswa</label>
-                         <input type="hidden" name="id_sekolah" value="{{$data[0]->id_sekolah}}">
+                         <input type="hidden" name="id_sekolah" value="{{$data['id']}}">
                          <input type="text" class="form-control" name="name" id="name" placeholder="Masukan Nama ">
                        </div>
                      </div>
@@ -116,7 +120,7 @@
                             <label for="name">kelas</label>
                             <select name="id_kelas" class="form-control" id="id_kelas">
                                 @foreach ($kelas as $item)
-                            <option value="{{$item->id}}">{{$item->name}}</option>
+                            <option value="{{$item->id_kelas}}">{{$item->nama_kelas}}</option>
                                     
                                 @endforeach
                             </select>

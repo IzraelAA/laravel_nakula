@@ -17,7 +17,7 @@ class kelasController extends Controller
         $data['id'] = $request->session()->get('id_sekolah');
         // var_dump($data);
         $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
-        return view('superadmin.kelas.index',['data' => $kelas]);
+        return view('superadmin.kelas.index', ['data' => $kelas, 'kelas' => $data]);
     }
 
     /**
@@ -44,7 +44,7 @@ class kelasController extends Controller
 
         DB::table('kelas')->insert([
             'id_sekolah' => request('id_sekolah'),
-            'name' => request('name'),
+            'nama_kelas' => request('name'),
         ]);
 
         return redirect()->route('kelas.index')->with('create', 'Kelas Berhasil Ditambah!!');
@@ -69,7 +69,9 @@ class kelasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kelas = DB::table('kelas')->where('id_kelas', $id)->get();
+        // dd($kelas);
+        return view('superadmin.kelas.update', ['kelas' => $kelas]);
     }
 
     /**
@@ -81,7 +83,11 @@ class kelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('kelas')
+            ->where('id_kelas', $id)
+            ->update(['id_sekolah' => $request->id_sekolah, 'nama_kelas' => $request->name]);
+
+        return redirect()->route('kelas.index')->with('create', 'Data Berhasil Diupdate!!');
     }
 
     /**
@@ -92,7 +98,7 @@ class kelasController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('kelas')->where('id', $id)->delete();
+        DB::table('kelas')->where('id_kelas', $id)->delete();
 
         return redirect()->route('kelas.index')->with('create', 'Data Berhasil Dihapus!!');
     }

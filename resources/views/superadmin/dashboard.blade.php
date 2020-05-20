@@ -12,6 +12,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <title>Nakula Edu</title>
     <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link href="{{url('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Custom CSS -->
@@ -112,9 +114,7 @@
                         <li>
                         <a href="{{route('sekolah.index')}}" class="waves-effect"><i class="fa fa-graduation-cap m-r-10" aria-hidden="true"></i>Data Sekolah</a>
                         </li>
-                        <li>
-                            <a href="{{route('mata_pelajaran')}}" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Mata Pelajaran</a>
-                            </li> 
+                       
                         
                     </ul>
                     {{-- <div class="text-center m-t-30">
@@ -172,6 +172,12 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#Mytable').DataTable();
+        } );
+    </script>
 </body>
 
 </html>

@@ -51,7 +51,7 @@ class GuruController extends Controller
 
         DB::table('guru')->insert([
             'id_sekolah' => request('id_sekolah'),
-            'name' => request('name'),
+            'nama_guru' => request('name'),
             'nik' => request('nik'),
             'password' => request('password'),
         ]);
@@ -78,7 +78,11 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        //
+        // $data['id'] = $request->session()->get('id_sekolah');
+        $guru = DB::table('guru')->where('id_guru', $id)->get();
+        // dd($guru);
+
+        return view('superadmin.guru.update', ['guru' => $guru]);
     }
 
     /**
@@ -90,7 +94,11 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('guru')
+            ->where('id_guru', $id)
+            ->update(['id_sekolah' => $request->id_sekolah, 'nama_guru' => $request->name, 'nik' => $request->nik, 'password' => $request->password]);
+
+        return redirect()->route('guru.index')->with('create', 'Data Berhasil Diupdate!!');
     }
 
     /**
@@ -101,7 +109,7 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('guru')->where('id', $id)->delete();
+        DB::table('guru')->where('id_guru', $id)->delete();
 
         return redirect()->route('guru.index')->with('create', 'Data Berhasil Dihapus!!');
     }

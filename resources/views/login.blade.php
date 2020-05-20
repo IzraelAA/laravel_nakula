@@ -23,82 +23,85 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+    <link rel="stylesheet" href="{{url('assets/styles/main.css')}}">
+
 </head>
 
-<body class="fix-header card-no-border" style=" background-image: linear-gradient(to right, red , yellow); height:100vh; position: relative;">
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-    </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        
-      <div class="container"  >
-        <div class="row justify-content-center" style="padding: 100px">
-            
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-6  col-md-6">
+<body class="fix-header card-no-border">
+    
+    
+        <!-- Navbar -->
+        <div class="preloader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+        </div>
+        <main class="login-container">
+            <div class="container">
+                <div class="row page-login d-flex align-items-center">
+                    <div class="section-left col col-12 col-md-6">
+                        <h1 class="mb-4"><br> NAKULA EDU</h1>
+                        <h6>
+                            
+Aplikasi mobile dan Web base yang bertujuan mengimplementasikan system pembelajaran jarak jauh untuk menghubungkan antara Sekolah, Guru dan Siswa secara terintegrasi dan realtime monitoring serta dilengkapi dengan sistem akademik sekolah
+                        </h6>
+                    </div>
+                    <div class="section-right col col-12 col-md-4">
+                        <div class="card">
+                            @if (session('create'))
+                                <div class="alert alert-danger text-center">
+                                    {{ session('create') }}
+                                </div>
+                            @endif
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="assets/logo/logonakulaedu.png" class="w-50 mb-4" alt="">
 
-                <div class="card" style="border:1px solid #000; padding: 40px">
-                    @if (session('create'))
-                    <div class="alert alert-danger text-center">
-                        {{ session('create') }}
-            
-                    </div>
-            @endif
-                      
-                    <div class="card-head text-center">
-                        
-                            <h5>Silahkan Login</h5>
-                        
-                    </div>
-                    <div class="card-body">
-                        
-                        <form method="POST" action="/loginadmin">
-                            @csrf
-                            <div class="form-group">
-                                <label class="col-md-12">Name</label>
-                                <div class="col-md-12">
-                                    <input type="text" placeholder="Nama" id="name" name="name" required class="form-control form-control-line">
                                 </div>
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-12">Password</label>
-                                <div class="col-md-12">
-                                    <input type="password" name="password" id="password" value="password" class="form-control form-control-line">
-                                </div>
-                            </div> 
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <button class="btn btn-success">Login</button>
-                                </div>
+                                <form method="post" action="{{ url('loginadmin') }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input id="name" name="name" type="name"
+                                            class="form-control @error('name') is-invalid @enderror" name="name"
+                                            value="{{ old('name') }}" required autocomplete="email" autofocus
+                                            placeholder="Masukan Name">
+    
+                                        @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required autocomplete="current-password" placeholder="Masuksan Password">
+    
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div>
+                                        <button type="submit" class="btn btn-login btn-block mt-2">Masuk</button>
+                                      
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
+    
                 </div>
             </div>
-            <!-- Column -->
-        </div>
-      </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+    
+            </main>
+    
+    
+    
+         
     <script src="{{url('assets/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{url('assets/plugins/bootstrap/js/tether.min.js')}}"></script>
@@ -106,7 +109,9 @@
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{url('assets/js/jquery.slimscroll.js')}}"></script>
     <!--Wave Effects -->
-<script src="{{url('assets/js/waves.js')}}"></script>
+
+
+    <script src="{{url('assets/js/waves.js')}}"></script>
     <!--Menu sidebar -->
 <script src="{{url('assets/js/sidebarmenu.js')}}"></script>
     <!--stickey kit -->
