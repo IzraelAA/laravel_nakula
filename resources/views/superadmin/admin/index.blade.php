@@ -32,32 +32,35 @@
             <!-- Column -->
             <!-- Column -->
             <div class="col-lg-10 col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        
-            @if (session('create'))
-            <div class="alert alert-primary text-center">
-                {{ session('create') }}
-    
-            </div>
-    @endif
-                    <div class="action text-right">
-
-                    <a href="{{route('admin.create')}}" class="btn btn-success" ><i class="fa fa-plus"></i> Tambah Admin</a>
+              @if (session('create'))
+              <div class="alert alert-primary text-center">
+                  {{ session('create') }}
+              </div>
+            @endif
+                {{-- table --}}
+                <div class="card mb-4">
+                  <div class="card-header d-flex">
+                    <div class="text-left">
+                      <i class="fas fa-table mr-1"></i>DataTable Example
                     </div>
-                          <table class="table">
-                            <thead class="thead-light">
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Level</th>
-                                <th scope="col">Password</th>
-                                <th scope="col">Sekolah</th>
-                                <th scope="col">Aksi</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-
+                      <div class="ml-auto">
+                        <a href="#" class="btn btn-success"  style="background: linear-gradient(to right,#000046, #1cb5e0);" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Admin</a>
+  
+                      </div>
+                  </div> <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead>
+                                <tr>
+                                  <th scope="col">No</th>
+                                  <th scope="col">Nama</th>
+                                  <th scope="col">Level</th>
+                                  <th scope="col">Password</th>
+                                  <th scope="col">Sekolah</th>
+                                  <th scope="col" class="text-center">Aksi</th>
+                                </tr>
+                              </thead>
+                              <tbody>             
                                 <?php $i=1 ;?>
                                 @foreach ($admin as $data)
                             
@@ -67,9 +70,9 @@
                                 <td>{{$data->level}}</td>
                                 <td>{{$data->password}}</td>
                                 <td>{{$data->nama_sekolah}}</td>
-                                <td class="d-flex">
-                                    <a href="{{ route('admin.edit' , $data->id) }}" class="btn btn-small btn-primary">Edit</a>
-                                    <form action="{{ route('admin.destroy', $data->id) }}" method="POST" class="d-inline">
+                                <td class="text-center">
+                                    <a href="{{ route('superadmin.edit' , $data->id) }}" class="btn btn-small btn-primary">Edit</a>
+                                    <form action="{{ route('superadmin.destroy', $data->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('delete')
 
@@ -80,11 +83,12 @@
                               </tr>
                               <?php $i++; ?>
                               @endforeach
-                            </tbody>
+                              </tbody>
                           </table>
-                       
-                    </div>
-                </div>
+                      </div>
+                  </div>
+              </div>
+                {{-- end table --}}
             </div>
             <!-- Column -->
         </div>
@@ -108,12 +112,12 @@
           </button>
         </div>
         <div class="modal-body">
-        <form action="{{route('admin.store')}}" method="post">
-           
+          <form action="{{route('superadmin.store')}}" method="post">
+            @csrf           
                 <div class="row">
                   <div class="col">
                       <label for="nama">Nama Admin</label>
-                    <input type="text" class="form-control" name="nama" id="nama" placeholder="Masukan Nama">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Masukan Nama">
                   </div>
                 </div>
                 <div class="row">
@@ -134,24 +138,23 @@
                 <div class="row">
                     <div class="col">
                         <label for="id_sekolah">Nama Sekolah</label>
-        <select name="id_sekolah" class="form-control" id="id_sekolah">
-                          {{-- @foreach ($admin as $data) --}}
-                          {{-- <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option> --}}
-                          {{-- {{print_r($data)}} --}}
-                        <select name="id_sekolah" id="id_sekolah">
-                          @foreach ($admin as $data)
+            
+                        <select name="id_sekolah" class="form-control" id="id_sekolah">
+                          @foreach ($sekolah as $data)
                           <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option>
+                          {{print_r($data)}}
                           @endforeach
                         </select>
                     </div>
                 </div>
               
-         </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+     
       </div>
     </div>
   </div>

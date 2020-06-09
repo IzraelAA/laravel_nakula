@@ -15,7 +15,10 @@ class MapelController extends Controller
     public function index(Request $request)
     {
         $data['id'] = $request->session()->get('id_sekolah');
-        // $data = DB::table('mata_pelajaran')->get();
+        $mapel = DB::table('nama_mapel')->get();
+        $guru = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+        // dd($data['id']);
         $relasi = DB::table('mata_pelajaran')
             ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
             ->join('kelas', 'mata_pelajaran.id_kelas', '=', 'kelas.id_kelas')
@@ -25,7 +28,12 @@ class MapelController extends Controller
         // dd($relasi);
         // die;
 
-        return view('superadmin.mapel.index', ['data' => $relasi]);
+        return view('superadmin.mapel.index', [
+            'data' => $relasi,
+            'mapel' => $mapel,
+            'guru' => $guru,
+            'kelas' => $kelas
+        ]);
     }
 
     public function mapel()

@@ -35,7 +35,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                    <form action="{{route('admin.update',$admin[0]->id)}}" method="post">
+                    <form action="{{route('superadmin.update',$admin[0]->id)}}" method="post">
                         @method('PUT')
                             @csrf           
                                 <div class="row">

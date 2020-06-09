@@ -1,4 +1,4 @@
-@extends('superadmin.dashboardguru')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
 <div class="container-fluid">
@@ -27,56 +27,67 @@
     <!-- Row -->
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10 col-md-6">
-              <div class="card">
-                <div class="card-body">
+            <div class="col-lg-12 col-md-6">
+              
             @if (session('create'))
                 <div class="alert alert-primary text-center">
                     {{ session('create') }}
                 </div>
              @endif
-             <div class="action text-right">
-                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-plus"></i> Tambah Siswa</a>
-            </div>
-            <table class="table" id="Mytable">
-                <thead class="thead-light">
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Nis</th>
-                    <th scope="col">Kelas</th>
-                    <th scope="col">Foto</th>
-                    <th scope="col" class="text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
+           
+          {{-- table --}}
+          <div class="card mb-4">
+            <div class="card-header d-flex">
+              <div class="text-left">
+                <i class="fas fa-table mr-1"></i>DataTable Example
+              </div>
+                <div class="ml-auto">
+                  <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" ><i class="fa fa-plus"></i> Tambah Siswa</a>
 
-                    <?php $i=1 ;?>
-                @foreach ($relasi as $item)
-                <tr>
-                    <th scope="row"><?=$i;?></th>
-                <td>{{$item->nama_siswa}}</td>
-                <td >{{$item->nis}}</td>
-                <td >{{$item->nama_kelas}}</td>
-                <td ><img src="{{url('assets/foto_siswa/', $item->foto) }}" width="50" class="rounded-circle" alt="gambar"></td>
-                      <td class="text-center">
-                      <a href="{{route('siswa.edit',$item->id_siswa)}}" class="btn btn-primary">Edit</a>
-                        <form action="{{ route('siswa.destroy', $item->id_siswa) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('delete')
-
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
-                        </form>
-                    </td>
-                      
-                    </tr>
-                    <?php $i++?>
-                @endforeach
-                 
-                </tbody>
-              </table>
+                </div>
             </div>
-          </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama </th>
+                            <th scope="col">Nis</th>
+                            <th scope="col">Kelas</th>
+                            <th scope="col">Foto</th>
+                            <th scope="col" class="text-center">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody>             
+                          <?php $i=1 ;?>
+                          @foreach ($relasi as $item)
+                          <tr>
+                              <th scope="row"><?=$i;?></th>
+                          <td>{{$item->nama_siswa}}</td>
+                          <td >{{$item->nis}}</td>
+                          <td >{{$item->nama_kelas}}</td>
+                          <td class="text-center" ><img src="{{url('assets/foto_siswa/', $item->foto) }}" width="30" class="rounded-circle" alt="gambar"></td>
+                                <td class="text-center">
+                                <a href="{{route('siswa.edit',$item->id_siswa)}}" class="btn btn-primary">Edit</a>
+                                  <form action="{{ route('siswa.destroy', $item->id_siswa) }}" method="POST" class="d-inline">
+                                      @csrf
+                                      @method('delete')
+          
+                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
+                                  </form>
+                              </td>
+                                
+                              </tr>
+                              <?php $i++?>
+                          @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+          {{-- end table --}}
+            
           </div>
         </div>
     </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class GuruController extends Controller
 {
@@ -12,15 +11,9 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-
-
-        $data['id'] = $request->session()->get('id_sekolah');
-        $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
-
-        return view('superadmin.guru.index', ['data' => $mapel]);
+        return view('superadmin.home_dashboardguru');
     }
 
     /**
@@ -28,12 +21,9 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        // $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
-        return view('superadmin.guru.insert', ['data' => $data]);
+        //
     }
 
     /**
@@ -44,19 +34,7 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'nik' => 'required'
-        ]);
-
-        DB::table('guru')->insert([
-            'id_sekolah' => request('id_sekolah'),
-            'nama_guru' => request('name'),
-            'nik' => request('nik'),
-            'password' => request('password'),
-        ]);
-
-        return redirect()->route('guru.index')->with('create', 'Guru Berhasil Ditambah!!');
+        //
     }
 
     /**
@@ -78,11 +56,7 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        // $data['id'] = $request->session()->get('id_sekolah');
-        $guru = DB::table('guru')->where('id_guru', $id)->get();
-        // dd($guru);
-
-        return view('superadmin.guru.update', ['guru' => $guru]);
+        //
     }
 
     /**
@@ -94,11 +68,7 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('guru')
-            ->where('id_guru', $id)
-            ->update(['id_sekolah' => $request->id_sekolah, 'nama_guru' => $request->name, 'nik' => $request->nik, 'password' => $request->password]);
-
-        return redirect()->route('guru.index')->with('create', 'Data Berhasil Diupdate!!');
+        //
     }
 
     /**
@@ -109,8 +79,6 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('guru')->where('id_guru', $id)->delete();
-
-        return redirect()->route('guru.index')->with('create', 'Data Berhasil Dihapus!!');
+        //
     }
 }

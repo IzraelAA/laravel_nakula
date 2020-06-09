@@ -1,4 +1,4 @@
-@extends('superadmin.dashboardguru')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
     
@@ -32,68 +32,72 @@
             <!-- Column -->
             <!-- Column -->
             <div class="col-lg-12 col-md-8">
-                <div class="card">
-                    <div class="card-body">
+                
                         
             @if (session('create'))
             <div class="alert alert-primary text-center">
                 {{ session('create') }}
     
             </div>
-    @endif
-                    <div class="action text-right">
+             @endif
+            
+                         {{-- table --}}
+                          <div class="card mb-4">
+                            <div class="card-header d-flex">
+                              <div class="text-left">
+                                <i class="fas fa-table mr-1"></i>DataTable Example
+                              </div>
+                                <div class="ml-auto">
+                                  <a href="{{route('jadwal.create')}}" data-toggle="modal" data-target="#exampleModal" class="btn btn-success" ><i class="fa fa-plus"></i> Tambah Jadwal</a>
 
-                    <a href="{{route('jadwal.create')}}" data-toggle="modal" data-target="#exampleModal" class="btn btn-success" ><i class="fa fa-plus"></i> Tambah Jadwal</a>
-                    </div>
-                          <table class="table">
-                            <thead class="thead-light">
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col" class="text-center">Nama pelajaran</th>
-                                <th scope="col" class="text-center">Kelas</th>
-                                <th scope="col" class="text-center">Hari</th>
-                                <th scope="col" class="text-center">Jam Masuk</th>
-                                <th scope="col" class="text-center">Jam Keluar</th>
-                                <th scope="col" class="text-center">Nama Guru</th>
-                                
-                                <th scope="col" class="text-center">Aksi</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php $i=1 ;?>
-                            @forelse ($relasi as $item)
-                            {{-- {{dd($item)}} --}}
-                            <tr>
-                                <th scope="row"><?= $i;?></th>
-                                <td class="text-center">{{$item->nama_pelajaran}}</td>
-                                <td class="text-center">{{$item->nama_kelas}}</td>
-                                <td class="text-center">{{$item->hari}}</td>
-                                <td class="text-center">{{$item->masuk}}</td>
-                                <td class="text-center">{{$item->keluar}}</td>
-                                <td class="text-center">{{$item->nama_guru}}</td>
-                                  <td class="text-center">
-                                  <a href="{{ route('jadwal.edit' , $item->id_jadwal) }}" class="btn btn-primary">Edit</a>
-                                    <form action="{{ route('jadwal.destroy', $item->id_jadwal) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('delete')
-
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php $i++?>
-                            @empty
-                            <tr>
-                               <td colspan="7" class="text-center">Data Kosong</td>
-                            </tr>
-                            @endforelse
-                             
-                            </tbody>
-                          </table>
-                       
-                    </div>
-                </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col" class="text-center">Nama pelajaran</th>
+                                            <th scope="col" class="text-center">Kelas</th>
+                                            <th scope="col" class="text-center">Hari</th>
+                                            <th scope="col" class="text-center"> Masuk</th>
+                                            <th scope="col" class="text-center"> Keluar</th>
+                                            <th scope="col" class="text-center"> Guru</th>
+                                            
+                                            <th scope="col" class="text-center">Aksi</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>             
+                                          <?php $i=1 ;?>
+                                          @foreach ($relasi as $item)
+                                          {{-- {{dd($item)}} --}}
+                                          <tr>
+                                              <th scope="row"><?= $i;?></th>
+                                              <td class="text-center">{{$item->nama_pelajaran}}</td>
+                                              <td class="text-center">{{$item->nama_kelas}}</td>
+                                              <td class="text-center">{{$item->hari}}</td>
+                                              <td class="text-center">{{$item->masuk}}</td>
+                                              <td class="text-center">{{$item->keluar}}</td>
+                                              <td class="text-center">{{$item->nama_guru}}</td>
+                                                <td class="text-center">
+                                                <a href="{{ route('jadwal.edit' , $item->id_jadwal) }}" class="btn btn-primary">Edit</a>
+                                                  <form action="{{ route('jadwal.destroy', $item->id_jadwal) }}" method="POST" class="d-inline">
+                                                      @csrf
+                                                      @method('delete')
+              
+                                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
+                                                  </form>
+                                              </td>
+                                          </tr>
+                                          <?php $i++?>
+                                          @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                          </div>
+                        {{-- end table --}}
             </div>
             <!-- Column -->
         </div>
@@ -118,21 +122,11 @@
         <div class="modal-body">
             <form action="{{route('jadwal.store')}}" method="post">
                 @csrf
+
                 <div class="row">
-                    <div class="col">
-                        <label for="kelas">Nama Kelas</label>
-                        <select name="kelas" id="kelas" class="form-control">
-                           @foreach ($kelas as $item)
-                        <option value="{{$item->id_kelas}}">{{$item->nama_kelas}}</option>
-                        @endforeach
-                    </select>
+                  <div class="col">
+                    <label for="name">Nama Pelajaran</label>
                     <input type="hidden" name="id_sekolah" value="{{$data['id']}}">
-                    
-                </div>
-                  </div>
-                     <div class="row">
-                       <div class="col">
-                           <label for="name">Nama Pelajaran</label>
                        {{-- <input type="hidden" name="id_sekolah" value="{{$data[0]->id_sekolah}}"> --}}
                        <select name="nama_pelajaran" id="nama_pelajaran" class="form-control">
                            @foreach ($mapel as $item)
@@ -143,16 +137,7 @@
                      </select>
                        </div>
                      </div>
-                      <div class="row">
-                        <div class="col">
-                            <label for="guru">Nama Guru</label>
-                            <select name="guru" id="guru" class="form-control">
-                               @foreach ($guru as $item)
-                            <option value="{{$item->id_guru}}">{{$item->nama_guru}}</option>
-                               @endforeach
-                            </select>
-                        </div>
-                      </div>
+                      
                       <div class="row">
                         <div class="col">
                             <label for="hari">Hari</label>
@@ -173,6 +158,11 @@
                                <option value="09:00">09:00</option>
                                <option value="10:00">10:00</option>
                                <option value="11:00">11:00</option>
+                               <option value="12:00">12:00</option>
+                               <option value="13:00">13:00</option>
+                               <option value="14:00">14:00</option>
+                               <option value="15:00">15:00</option>
+                               <option value="16:00">16:00</option>
                            </select>
                         </div>
                       </div>
@@ -180,10 +170,15 @@
                         <div class="col">
                             <label for="keluar">Jam keluar</label>
                             <select name="keluar" class="form-control" id="keluar">
-                                <option value="12:00">12:00</option>
-                                <option value="01:00">01:00</option>
-                                <option value="02:00">02:00</option>
-                                <option value="03:00">03:00</option>
+                              <option value="08:00">08:00</option>
+                              <option value="09:00">09:00</option>
+                              <option value="10:00">10:00</option>
+                              <option value="11:00">11:00</option>
+                              <option value="12:00">12:00</option>
+                              <option value="13:00">13:00</option>
+                              <option value="14:00">14:00</option>
+                              <option value="15:00">15:00</option>
+                              <option value="16:00">16:00</option>
                             </select>
                         </div>
                       </div>

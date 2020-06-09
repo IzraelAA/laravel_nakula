@@ -1,4 +1,4 @@
-@extends('superadmin.dashboardguru')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
     

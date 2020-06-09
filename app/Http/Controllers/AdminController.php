@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Guru;
+use App\Exports\GuruExport;
+use App\Imports\GuruImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,12 +16,49 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->get();
-        
-        
-        return view('superadmin.admin.index', ['admin' => $admin]);   
+
+
+        $data['id'] = $request->session()->get('id_sekolah');
+        $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+        // var_dump($mapel);
+
+        return view('superadmin.guru.index', ['data' => $mapel]);
+    }
+
+    public function dashboard()
+    {
+        return view('superadmin.guru.dashboard');
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new GuruExport, 'guru.xlsx');
+    }
+
+    public function import_excel(Request $request)
+    {
+        // validasi
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+
+        // menangkap file excel
+        $file = $request->file('file');
+
+        // membuat nama file unik
+        $nama_file = rand() . $file->getClientOriginalName();
+
+        // upload ke folder file_siswa di dalam folder public
+        $tujuan_upload = 'assets/guru' . $nama_file;
+
+        $file->move($tujuan_upload, $file->getClientOriginalName());
+
+        // import data
+        Excel::import(new GuruImport, $file->getClientOriginalName());
+
+        return redirect()->route('admin.index')->with('create', 'Guru Berhasil Ditambah!!');
     }
 
     /**
@@ -25,10 +66,11 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $admin = DB::table('sekolah')->get();
-        return view('superadmin.admin.insert', ['admin' => $admin]);
+        $data['id'] = $request->session()->get('id_sekolah');
+
+        return view('superadmin.guru.insert', ['data' => $data]);
     }
 
     /**
@@ -39,21 +81,19 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
-            'password' => 'required',
-            'level' => 'required',
-            'id_sekolah' => 'required'
+            'nik' => 'required'
         ]);
-        DB::table('admin')->insert([
-            'name' => request('name'),
-            'password' => request('password'),
-            'level' => request('level'),
-            'id_sekolah' => request('id_sekolah')
-        ]);
-        
-        return redirect()->route('admin.index')->with('create', 'Data Berhasil Ditambah!!');
 
+        DB::table('guru')->insert([
+            'id_sekolah' => request('id_sekolah'),
+            'nama_guru' => request('name'),
+            'nik' => request('nik'),
+            'password' => request('password'),
+        ]);
+
+        return redirect()->route('admin.index')->with('create', 'Guru Berhasil Ditambah!!');
     }
 
     /**
@@ -64,7 +104,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        // 
+        //
     }
 
     /**
@@ -75,9 +115,11 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->where('id',$id)->get();
-        // var_dump($admin); die;
-        return view ('superadmin.admin.update',['admin' => $admin]);
+        // $data['id'] = $request->session()->get('id_sekolah');
+        $guru = DB::table('guru')->where('id_guru', $id)->get();
+        // dd($guru);
+
+        return view('superadmin.admin.update', ['guru' => $guru]);
     }
 
     /**
@@ -89,12 +131,11 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-         DB::table('admin')
-                ->where('id',$id)
-                ->update(['name' => $request->name,'password' => $request->password]);
+        DB::table('guru')
+            ->where('id_guru', $id)
+            ->update(['id_sekolah' => $request->id_sekolah, 'nama_guru' => $request->name, 'nik' => $request->nik, 'password' => $request->password]);
 
         return redirect()->route('admin.index')->with('create', 'Data Berhasil Diupdate!!');
-
     }
 
     /**
@@ -105,8 +146,8 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('admin')->where('id',$id)->delete();
-        
+        DB::table('guru')->where('id_guru', $id)->delete();
+
         return redirect()->route('admin.index')->with('create', 'Data Berhasil Dihapus!!');
     }
 }

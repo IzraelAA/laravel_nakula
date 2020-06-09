@@ -1,4 +1,4 @@
-@extends('superadmin.dashboardguru')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
     
@@ -31,9 +31,8 @@
             
             <!-- Column -->
             <!-- Column -->
-            <div class="col-lg-10 col-md-7">
-                <div class="card">
-                    <div class="card-body">
+            <div class="col-lg-12 col-md-8">
+                
                         
             @if (session('create'))
             <div class="alert alert-primary text-center">
@@ -41,48 +40,52 @@
     
             </div>
     @endif
-                    <div class="action text-right">
+                    
+        {{-- table --}}
+        <div class="card mb-4">
+            <div class="card-header d-flex">
+              <div class="text-left">
+                <i class="fas fa-table mr-1"></i>DataTable Example
+              </div>
+                <div class="ml-auto">
+                  <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Kelas</a>
 
-                    <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Kelas</a>
-                    </div>
-                          <table class="table">
-                            <thead class="thead-light">
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col" class="text-center">Nama Kelas</th>
-                                
-                                <th scope="col" class="text-center">Aksi</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php $i=1 ;?>
-                            @forelse ($data as $item)
-                            <tr>
-                                <th scope="row"><?= $i;?></th>
-                                <td class="text-center">{{$item->nama_kelas}}</td>
-                                  <td class="text-center">
-                                  <a href="{{route('kelas.edit',$item->id_kelas)}}" class="btn btn-primary">Edit</a>
-                                    <form action="{{ route('kelas.destroy', $item->id_kelas) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('delete')
-
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php $i++?>
-                            @empty
-                            <tr>
-                               <td colspan="7" class="text-center">Data Kosong</td>
-                            </tr>
-                            @endforelse
-                             
-                            </tbody>
-                          </table>
-                       
-                    </div>
                 </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" class="text-center">Nama Kelas</th>   
+                            <th scope="col" class="text-center">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody>             
+                          <?php $i=1 ;?>
+                          @foreach ($data as $item)
+                          <tr>
+                              <th scope="row"><?= $i;?></th>
+                              <td class="text-center">{{$item->nama_kelas}}</td>
+                                <td class="text-center">
+                                <a href="{{route('kelas.edit',$item->id_kelas)}}" class="btn btn-primary">Edit</a>
+                                  <form action="{{ route('kelas.destroy', $item->id_kelas) }}" method="POST" class="d-inline">
+                                      @csrf
+                                      @method('delete')
+
+                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin Data Mau Dihapus??');"> Hapus</button>
+                                  </form>
+                              </td>
+                          </tr>
+                          <?php $i++?>                      
+                          @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {{-- end table --}}
             </div>
             <!-- Column -->
         </div>

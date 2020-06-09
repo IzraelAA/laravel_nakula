@@ -14,17 +14,9 @@ class NakulaController extends Controller
      */
     public function index()
     {
-        return view('superadmin.dashboard');
-
+        return view('superadmin.admin.dashboard');
         //
     }
-
-
-
-
-
-
-
 
 
     /**
@@ -57,6 +49,17 @@ class NakulaController extends Controller
             '=',
             request('password')
         )->count();
+
+        $guru = DB::table('guru')->where(
+            'nik',
+            '=',
+            request('name'),
+        )->where(
+            'password',
+            '=',
+            request('password')
+        )->count();
+
         if ($tb_login == 1) {
             $tb_acc = DB::table('admin')->where(
                 'name',
@@ -80,7 +83,7 @@ class NakulaController extends Controller
                 $name_sekolah = "";
                 $id_sekolah = "";
                 $id = "";
-                foreach ($admin as $key => $value) {
+                foreach ($admin as  $value) {
                     $name = $value->name;
                     $name_sekolah = $value->nama_sekolah;
                     $id_sekolah = $value->id_sekolah;
@@ -94,8 +97,38 @@ class NakulaController extends Controller
                 $request->session()->put('id', $id);
                 $request->session()->put('logo1', $logo);
 
-                return redirect()->route('guru.index');
-            };
+                return redirect()->route('dashboard');
+            }
+        } else if ($guru == 1) {
+            $admin1 = DB::table('guru')
+                ->join('sekolah', 'guru.id_sekolah', '=', 'sekolah.id_sekolah')
+                // ->join('mata_pelajaran','guru')
+                ->where(
+                    'nik',
+                    '=',
+                    request('name')
+                )->get();
+
+            $name = "";
+            $name_sekolah = "";
+            $id_sekolah = "";
+            $id_guru = "";
+            // dd($admin1);
+            foreach ($admin1 as  $value) {
+                $name = $value->nama_guru;
+                $name_sekolah = $value->nama_sekolah;
+                $id_sekolah = $value->id_sekolah;
+                $id_guru = $value->id_guru;
+                $logo = $value->logo;
+            }
+
+            $request->session()->put('name', $name);
+            $request->session()->put('nama_sekolah', $name_sekolah);
+            $request->session()->put('id_sekolah', $id_sekolah);
+            $request->session()->put('id_guru', $id_guru);
+            $request->session()->put('logo1', $logo);
+
+            return redirect()->route('guru.index');
         } else {
             return redirect()->route('login')->with('create', 'Gagal Login!!');
         }
@@ -109,7 +142,19 @@ class NakulaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::table('testsoal')->insert([
+            'id_datasoal' => request('id_datasoal'),
+            'bobot' => request('bobot'),
+            'soal' => request('soal'),
+            'jawaban' => request('jawaban'),
+            'opsi_a' => request('opsi_a'),
+            'opsi_b' => request('opsi_b'),
+            'opsi_c' => request('opsi_c'),
+            'opsi_d' => request('opsi_d'),
+            'opsi_e' => request('opsi_e'),
+
+        ]);
+        return redirect()->route('soal-ganda.edit', request('id_datasoal'))->with('create', ' Berhasil Ditambah!!');
     }
 
     /**

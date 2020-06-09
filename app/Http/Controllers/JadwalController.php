@@ -52,12 +52,14 @@ class jadwalController extends Controller
      */
     public function store(Request $request)
     {
+        $mapel = DB::table('mata_pelajaran')->where('id_mapel', request('nama_pelajaran'))->get();
+        $array = json_decode(json_encode($mapel), true);
+        $datamapel = $array['0'];
         DB::table('jadwal_pelajaran')->insert([
-
-            'id_kelas' => request('kelas'),
+            'id_kelas' => $datamapel['id_kelas'],
             'id_sekolah' => request('id_sekolah'),
             'id_mapel' => request('nama_pelajaran'),
-            'id_guru' => request('guru'),
+            'id_guru' => $datamapel['id_guru'],
             'hari' => request('hari'),
             'masuk' => request('masuk'),
             'keluar' => request('keluar'),
@@ -114,9 +116,21 @@ class jadwalController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $mapel = DB::table('mata_pelajaran')->where('id_mapel', request('nama_pelajaran'))->get();
+        // dd($mapel);
+        $array = json_decode(json_encode($mapel), true);
+        $datamapel = $array['0'];
         DB::table('jadwal_pelajaran')
             ->where('id_jadwal', $id)
-            ->update(['id_kelas' => $request->kelas, 'id_sekolah' => $request->id_sekolah, 'id_mapel' => $request->nama_pelajaran, 'id_guru' => $request->guru, 'hari' => $request->hari, 'masuk' => $request->masuk, 'keluar' => $request->keluar]);
+            ->update([
+                'id_kelas' =>  $datamapel['id_kelas'],
+                'id_sekolah' => $request->id_sekolah,
+                'id_mapel' => $request->nama_pelajaran,
+                'id_guru' => $datamapel['id_guru'],
+                'hari' => $request->hari,
+                'masuk' => $request->masuk,
+                'keluar' => $request->keluar
+            ]);
 
         return redirect()->route('jadwal.index')->with('create', 'Data Berhasil Diupdate!!');
     }

@@ -106,7 +106,7 @@ class SekolahController extends Controller
             'logo' => $file->getClientOriginalName()
         ]);
 
-        return redirect()->route('sekolah.index');
+        return redirect()->route('sekolah.index')->with('create', 'Data Berhasil Ditambah!!');;
     }
 
 

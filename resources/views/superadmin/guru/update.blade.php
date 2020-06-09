@@ -1,4 +1,4 @@
-@extends('superadmin.dashboardguru')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
 
@@ -37,7 +37,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route('guru.update',$guru[0]->id_guru)}}" method="post">
+                        <form action="{{route('admin.update',$guru[0]->id_guru)}}" method="post">
                             @method('PUT')
                             @csrf           
                                 <div class="row">

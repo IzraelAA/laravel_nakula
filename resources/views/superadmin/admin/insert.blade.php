@@ -63,9 +63,9 @@
                                         <label for="id_sekolah">Nama Sekolah</label>
                             
                                         <select name="id_sekolah" class="form-control" id="id_sekolah">
-                                          @foreach ($admin as $data)
-                                          <option value={{$data->id_sekolah}}>{{$data->nama_sekolah}}</option>
-                                          {{print_r($data)}}
+                                          @foreach ($data as $item)
+                                          <option value={{$item->id_sekolah}}>{{$item->nama_sekolah}}</option>
+                                          {{-- {{print_r($data)}} --}}
                                           @endforeach
                                         </select>
                                     </div>

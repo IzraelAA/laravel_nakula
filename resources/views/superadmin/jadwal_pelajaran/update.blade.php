@@ -1,4 +1,4 @@
-@extends('superadmin.dashboardguru')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
     
@@ -24,21 +24,11 @@
                      <form action="{{route('jadwal.update', $jadwal[0]->id_jadwal)}}" method="post">
                       @method('PUT')
                       @csrf
-                      <div class="row">
-                          <div class="col">
-                              <label for="kelas">Nama Kelas</label>
-                              <select name="kelas" id="kelas" class="form-control">
-                                 @foreach ($kelas as $item)
-                              <option value="{{$item->id_kelas}}">{{$item->nama_kelas}}</option>
-                              @endforeach
-                          </select>
-                          <input type="hidden" name="id_sekolah" value="{{$data['id']}}">
-                          
-                      </div>
-                        </div>
+                      
                            <div class="row">
                              <div class="col">
                                  <label for="name">Nama Pelajaran</label>
+                             <input type="hidden" name="id_sekolah" value="{{$data['id']}}">
                              <select name="nama_pelajaran" id="nama_pelajaran" class="form-control">
                                 @foreach ($mapel as $item)
                                     <option value="{{$item->id_mapel}}">{{$item->nama_pelajaran}}</option>     
@@ -46,16 +36,6 @@
                            </select>
                              </div>
                            </div>
-                            <div class="row">
-                              <div class="col">
-                                  <label for="guru">Nama Guru</label>
-                                  <select name="guru" id="guru" class="form-control">
-                                     @foreach ($guru as $item)
-                                  <option value="{{$item->id_guru}}">{{$item->nama_guru}}</option>
-                                     @endforeach
-                                  </select>
-                              </div>
-                            </div>
                             <div class="row">
                               <div class="col">
                                   <label for="hari">Hari</label>
