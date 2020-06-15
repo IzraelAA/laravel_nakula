@@ -121,6 +121,12 @@
                             </select>
                         </div>
                     </div>
+                     <div class="row">
+                      <div class="col">
+                          <label for="nama">Deskripsi</label>
+                            <input type="text" name="deskripsi" id="deskripsi" class="form-control" placeholder="Deskripsi...">
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col">
                             <label for="id_guru">Nama Guru</label>

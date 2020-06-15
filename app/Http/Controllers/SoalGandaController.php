@@ -14,26 +14,30 @@ class SoalGandaController extends Controller
      */
     public function index(Request $request)
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        $soal = DB::table('data_soal')
-            ->join('mata_pelajaran', 'data_soal.id_mapel', '=', 'mata_pelajaran.id_mapel')
-            ->join('guru', 'data_soal.id_guru', '=', 'guru.id_guru')
-            ->where('guru.id_sekolah', $data['id'])->get();
-        $relasi = DB::table('mata_pelajaran')
-            ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
-            ->where('guru.id_sekolah', $data['id'])
-            ->get();
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data['id'] = $request->session()->get('id_sekolah');
+            $soal = DB::table('data_soal')
+                ->join('mata_pelajaran', 'data_soal.id_mapel', '=', 'mata_pelajaran.id_mapel')
+                ->join('guru', 'data_soal.id_guru', '=', 'guru.id_guru')
+                ->where('guru.id_sekolah', $data['id'])->get();
+            $relasi = DB::table('mata_pelajaran')
+                ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
+                ->where('guru.id_sekolah', $data['id'])
+                ->get();
 
 
-        // dd($soal);
-        return view(
-            'superadmin.soal_ganda.index',
-            [
-                'data' => $data,
-                'relasi' => $relasi,
-                'soal' => $soal
-            ]
-        );
+            // dd($soal);
+            return view(
+                'superadmin.soal_ganda.index',
+                [
+                    'data' => $data,
+                    'relasi' => $relasi,
+                    'soal' => $soal
+                ]
+            );
+        }
     }
 
     /**

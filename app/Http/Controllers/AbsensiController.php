@@ -14,17 +14,21 @@ class AbsensiController extends Controller
      */
     public function index(Request $request)
     {
-        $data['id'] = $request->session()->get('id_sekolah');
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data['id'] = $request->session()->get('id_sekolah');
+            $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+            $absen = DB::table('absensi_siswa')
+                ->join('siswa', 'absensi_siswa.id_siswa', '=', 'siswa.id_siswa')
+                ->join('guru', 'absensi_siswa.id_guru', '=', 'guru.id_guru')
+                ->join('kelas', 'absensi_siswa.id_kelas', '=', 'kelas.id_kelas')
+                ->join('mata_pelajaran', 'absensi_siswa.id_mapel', '=', 'mata_pelajaran.id_mapel')
+                ->where('guru.id_sekolah', $data['id'])->get();
+            // dd($absen);
 
-        $absen = DB::table('absensi_siswa')
-            ->join('siswa', 'absensi_siswa.id_siswa', '=', 'siswa.id_siswa')
-            ->join('guru', 'absensi_siswa.id_guru', '=', 'guru.id_guru')
-            ->join('kelas', 'absensi_siswa.id_kelas', '=', 'kelas.id_kelas')
-            ->join('mata_pelajaran', 'absensi_siswa.id_mapel', '=', 'mata_pelajaran.id_mapel')
-            ->where('guru.id_sekolah', $data['id'])->get();
-        // dd($absen);
-
-        return view('superadmin.absensi.index', ['absen' => $absen]);
+            return view('superadmin.absensi.index', ['absen' => $absen, 'kelas' => $kelas]);
+        }
     }
 
     /**
@@ -57,6 +61,21 @@ class AbsensiController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function filterabsensi(Request $request)
+    {
+        $data['id'] = $request->session()->get('id_sekolah');
+        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+        $absen = DB::table('absensi_siswa')
+            ->join('siswa', 'absensi_siswa.id_siswa', '=', 'siswa.id_siswa')
+            ->join('guru', 'absensi_siswa.id_guru', '=', 'guru.id_guru')
+            ->join('kelas', 'absensi_siswa.id_kelas', '=', 'kelas.id_kelas')
+            ->join('mata_pelajaran', 'absensi_siswa.id_mapel', '=', 'mata_pelajaran.id_mapel')
+            ->where('guru.id_sekolah', $data['id'])
+            ->where('kelas.id_kelas', $request->input('id_kelas'))->get();
+        // dd($absen);
+        return view('superadmin.absensi.index', ['absen' => $absen, 'kelas' => $kelas]);
     }
 
     /**

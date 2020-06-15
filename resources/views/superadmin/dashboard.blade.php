@@ -54,10 +54,7 @@
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Data Sekolah</a
                             >
-                            <a class="nav-link" href="{{route('namamapel.index')}}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Nama Mapel</a
-                            >
+                           
                         </div>
                     </div>
                     {{-- <div class="sb-sidenav-footer">

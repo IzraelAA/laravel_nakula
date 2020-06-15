@@ -15,12 +15,16 @@ class PembayaranController extends Controller
      */
     public function index(Request $request)
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
-        // dd($kelas);
-        return view('superadmin.pembayaran.spp.index', [
-            'kelas' => $kelas,
-        ]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data['id'] = $request->session()->get('id_sekolah');
+            $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+            // dd($kelas);
+            return view('superadmin.pembayaran.spp.index', [
+                'kelas' => $kelas,
+            ]);
+        }
     }
 
     /**

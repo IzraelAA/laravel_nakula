@@ -40,7 +40,7 @@
                                 <div class="row">
                                   <div class="col">
                                       <label for="nama">Nama Guru</label>
-                                  <input type="hidden" name="id_sekolah" value="{{ $data['id'] }}">
+                                  <input type="hidden" name="id_sekolah" value="{{$data['id']}}">
                                     <input type="text" class="form-control" name="name" id="name" placeholder="Masukan Nama">
                                   </div>
                                 </div>

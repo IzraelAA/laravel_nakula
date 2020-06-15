@@ -12,9 +12,13 @@ class NakulaController extends Controller
      
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('superadmin.admin.dashboard');
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            return view('superadmin.admin.dashboard');
+        }
         //
     }
 
@@ -53,7 +57,7 @@ class NakulaController extends Controller
         $guru = DB::table('guru')->where(
             'nik',
             '=',
-            request('name'),
+            request('name')
         )->where(
             'password',
             '=',
@@ -132,6 +136,16 @@ class NakulaController extends Controller
         } else {
             return redirect()->route('login')->with('create', 'Gagal Login!!');
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->put('name', "");
+        $request->session()->put('nama_sekolah', "");
+        $request->session()->put('id_sekolah', "");
+        $request->session()->put('id', "");
+        $request->session()->put('logo1', "");
+        return redirect()->route('login');
     }
 
     /**

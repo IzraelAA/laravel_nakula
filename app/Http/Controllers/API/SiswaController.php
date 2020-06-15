@@ -43,7 +43,7 @@ class SiswaController extends Controller
             '=',
             $password
         )->count();
-        $_login1 = DB::table('siswa')->where(
+        $_login1 = DB::table('siswa')->join('sekolah','siswa.id_sekolah','=','sekolah.id_sekolah')->where(
             'nis',
             '=',
             $nis
@@ -51,7 +51,7 @@ class SiswaController extends Controller
             'password',
             '=',
             $password
-        )->get();
+        )->first();
         if ($_login == 1)
             return ResponseFormatter::success($_login1, 'Data Siswa Berhasil Login');
         else

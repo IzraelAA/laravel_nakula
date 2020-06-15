@@ -1,4 +1,4 @@
-@extends('superadmin.dashboard')
+@extends('superadmin.dashboardadmin')
 
 @section('content')
     
@@ -113,6 +113,7 @@
               <div class="form-group">
                   <label class="col-md-12">Nama Pelajaran</label>
                   <div class="col-md-12">
+                      <input type="hidden"  name="id_sekolah" id="id_sekolah" class="form-control form-control-line" value="{{$id_sekolah['id']}}">
                       <input type="text" placeholder="Masukan Nama pelajaran" name="name" id="name" class="form-control form-control-line">
                   </div>
               </div>  

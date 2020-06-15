@@ -34,10 +34,15 @@ class QuizController extends Controller
 
   public function soal_quiz(Request $request)
   {
-    $quiz = DB::table('quiz')
+      $i = 0;
+      $quiz = DB::table('quiz')
       ->where('id_dataquiz', $request->input('id_dataquiz'))
       ->get();
-
+        foreach ($quiz as $key => $value) { 
+            $quiz[$i]->nomer =$i+1 ;
+            $i++;
+        
+        }  
     if ($quiz)
       return ResponseFormatter::success($quiz, 'Data  Berhasil Diambil');
     else

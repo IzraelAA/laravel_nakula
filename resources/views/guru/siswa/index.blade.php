@@ -53,7 +53,7 @@
                               <thead>
                                 <tr>
                                   <th scope="col">No</th>
-                                  <th scope="col">Nama Pelajaran</th>
+                                  {{-- <th scope="col">Nama Pelajaran</th> --}}
                                   <th scope="col">Kelas</th>
                                   <th scope="col" class="text-center">Aksi</th>
                                 </tr>
@@ -64,7 +64,7 @@
                             
                               <tr>
                               <th scope="row"><?=$i;?></th>
-                                <td>{{$item->nama_pelajaran}}</td>
+                                {{-- <td>{{$item->nama_pelajaran}}</td> --}}
                                 <td>{{$item->nama_kelas}}</td>
                                 
                                 <td class="text-center">

@@ -44,7 +44,7 @@
                       <i class="fas fa-table mr-1"></i>DataTable Example
                     </div>
                       <div class="ml-auto">
-                        <a href="#" class="btn btn-success"  style="background: linear-gradient(to right,#000046, #1cb5e0);" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Admin</a>
+                        <a href="#" class="btn btn-success" style="background: linear-gradient(to right,#000046, #1cb5e0);" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Admin</a>
   
                       </div>
                   </div> <div class="card-body">

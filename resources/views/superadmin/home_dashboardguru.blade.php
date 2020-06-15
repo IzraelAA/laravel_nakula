@@ -7,7 +7,8 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Dashboard - SB Admin</title>
-    <link href="{{url('assets/vendor/dist/css/styles.css')}}" rel="stylesheet" />
+        <link href="{{url('assets/vendor/dist/css/styles.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{url('assets/css/setting.css')}}">
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
     </head>
@@ -28,9 +29,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a><a class="dropdown-item" href="#">Activity Log</a>
+                    <a class="dropdown-item" href="{{route('guru-setting.index')}}">Settings</a><a class="dropdown-item" href="#">Activity Log</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                    <a class="dropdown-item" href="{{url('logout')}}">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -41,7 +42,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="{{route('nakula.index')}}"
+                        <a class="nav-link" href="#"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a
                             >
@@ -54,16 +55,35 @@
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Data Jadwal</a
                             >
-                            <a class="nav-link" href="{{route('guru-soal.index')}}"
+                            <a class="nav-link" href="{{route('guru-materi.index')}}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Lihat Soal</a
+                                Materi</a
                             >
                             <a class="nav-link" href="{{route('guru-nilai.index')}}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Nilai</a>
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
+                        ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Quiz
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                    ></a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" href="{{route('guru-quizpg.index')}}"
+                                    ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                    Pilihan Ganda</a
+                                    >
+                                  
                                  <a class="nav-link" href="{{route('guru-quiz.index')}}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Quiz</a>
+                                Essay</a>
+                                
+                            </nav>
+                        </div>
+                                
+                                 <a class="nav-link" href="{{route('guru-absensi.index')}}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Absensi</a>
                         </div>
                     </div>
                     {{-- <div class="sb-sidenav-footer">
@@ -89,5 +109,11 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="{{url('assets/vendor/dist/assets/demo/datatables-demo.js')}}"></script>
+        <script>
+         $('.form-control-file').on('change', function() {
+         let filename = $(this).val().split('\\').pop();
+         $(this).next('.form-control-file').addClass("selected").html(filename);
+     });
+        </script>
     </body>
 </html>

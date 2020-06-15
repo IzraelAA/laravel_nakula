@@ -14,24 +14,28 @@ class jadwalController extends Controller
      */
     public function index(Request $request)
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        // $guru['id'] = $request->session()->get('id_guru');
-        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
-        $guru = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        $mapel = DB::table('mata_pelajaran')
-            ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
-            ->where('guru.id_sekolah', $data['id'])
-            ->get();
-        // dd($data);
-        $relasi = DB::table('jadwal_pelajaran')
-            ->join('kelas', 'jadwal_pelajaran.id_kelas', '=', 'kelas.id_kelas')
-            ->join('sekolah', 'jadwal_pelajaran.id_sekolah', '=', 'sekolah.id_sekolah')
-            ->join('mata_pelajaran', 'jadwal_pelajaran.id_mapel', '=', 'mata_pelajaran.id_mapel')
-            ->join('guru', 'jadwal_pelajaran.id_guru', '=', 'guru.id_guru')
-            ->where('sekolah.id_sekolah', $data['id'])
-            ->get();
-        // dd($relasi);
-        return view('superadmin.jadwal_pelajaran.index', ['data' => $data, 'relasi' => $relasi, 'kelas' => $kelas, 'guru' => $guru, 'mapel' => $mapel]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data['id'] = $request->session()->get('id_sekolah');
+            // $guru['id'] = $request->session()->get('id_guru');
+            $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+            $guru = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+            $mapel = DB::table('mata_pelajaran')
+                ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
+                ->where('guru.id_sekolah', '=', $data['id'])
+                ->get();
+            // dd($data);
+            $relasi = DB::table('jadwal_pelajaran')
+                ->join('kelas', 'jadwal_pelajaran.id_kelas', '=', 'kelas.id_kelas')
+                ->join('sekolah', 'jadwal_pelajaran.id_sekolah', '=', 'sekolah.id_sekolah')
+                ->join('mata_pelajaran', 'jadwal_pelajaran.id_mapel', '=', 'mata_pelajaran.id_mapel')
+                ->join('guru', 'jadwal_pelajaran.id_guru', '=', 'guru.id_guru')
+                ->where('sekolah.id_sekolah', $data['id'])
+                ->get();
+            // dd($relasi);
+            return view('superadmin.jadwal_pelajaran.index', ['data' => $data, 'relasi' => $relasi, 'kelas' => $kelas, 'guru' => $guru, 'mapel' => $mapel]);
+        }
     }
 
     /**
@@ -53,6 +57,7 @@ class jadwalController extends Controller
     public function store(Request $request)
     {
         $mapel = DB::table('mata_pelajaran')->where('id_mapel', request('nama_pelajaran'))->get();
+        // dd($mapel);
         $array = json_decode(json_encode($mapel), true);
         $datamapel = $array['0'];
         DB::table('jadwal_pelajaran')->insert([

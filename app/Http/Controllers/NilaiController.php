@@ -14,18 +14,22 @@ class NilaiController extends Controller
      */
     public function index(Request $request)
     {
-        $guru['id_guru'] = $request->session()->get('id_guru');
-        $guru['id_sekolah'] = $request->session()->get('id_sekolah');
-        $mapel = DB::table('mata_pelajaran')->where('id_guru', $guru['id_guru'])->get();
-        $nilai = DB::table('data_nilai')
-            ->join('kelas', 'data_nilai.id_kelas', '=', 'kelas.id_kelas')
-            ->join('mata_pelajaran', 'data_nilai.id_mapel', '=', 'mata_pelajaran.id_mapel')->get();
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $guru['id_guru'] = $request->session()->get('id_guru');
+            $guru['id_sekolah'] = $request->session()->get('id_sekolah');
+            $mapel = DB::table('mata_pelajaran')->where('id_guru', $guru['id_guru'])->get();
+            $nilai = DB::table('data_nilai')
+                ->join('kelas', 'data_nilai.id_kelas', '=', 'kelas.id_kelas')
+                ->join('mata_pelajaran', 'data_nilai.id_mapel', '=', 'mata_pelajaran.id_mapel')->get();
 
-        return view('guru.nilai.index', [
-            'mapel' => $mapel,
-            'guru' => $guru,
-            'nilai' => $nilai
-        ]);
+            return view('guru.nilai.index', [
+                'mapel' => $mapel,
+                'guru' => $guru,
+                'nilai' => $nilai
+            ]);
+        }
     }
 
     /**

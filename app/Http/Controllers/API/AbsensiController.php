@@ -44,13 +44,26 @@ class AbsensiController extends Controller
                 $hari_ini = "Tidak di ketahui";
                 break;
         }
-
-        // print_r($hari_ini);
+        date_default_timezone_set('Asia/Jakarta');
+        $jam = date('H:i:s');
+        var_dump($jam);
+        
+        
+        $absen = DB::table('jadwal_pelajaran')
+                ->where('masuk' ,'<', $jam)
+                ->where('keluar', '>', $jam)->where('hari','=', $hari_ini)->first();
+                print_r($absen);
+                
+        if($absen = 1){
+            
+        $absen = DB::table('jadwal_pelajaran')
+                ->where('masuk' ,'<', $jam)
+                ->where('keluar', '>', $jam)->where('hari','=', $hari_ini)->first();
         $data = DB::table('absensi_siswa')->insert([
             'id_siswa' => request('id_siswa'),
-            'id_guru' => request('id_guru'),
-            'id_kelas' => request('id_kelas'),
-            'id_mapel' => request('id_mapel'),
+            'id_guru' => $absen->id_guru,
+            'id_kelas' => $absen->id_kelas,
+            'id_mapel' => $absen->id_mapel,
             'hari' => $hari_ini,
             'longtitude' => request('longtitude'),
             'latitude' => request('latitude'),
@@ -58,5 +71,9 @@ class AbsensiController extends Controller
         ]);
 
         return ResponseFormatter::success($data, 'Data Siswa Berhasil Ditambahkan');
+        }
+      else{
+        return ResponseFormatter::error(null, 'Data Siswa Gagal Ditambahkan');    
+        }
     }
 }

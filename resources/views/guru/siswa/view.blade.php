@@ -53,7 +53,7 @@
                               <thead>
                                 <tr>
                                   <th scope="col">No</th>
-                                  <th scope="col">Nama Pelajaran</th>
+                                  <th scope="col">Nama Siswa</th>
                                   <th scope="col">Nis</th>
                                   <th scope="col" class="text-center">Aksi</th>
                                 </tr>

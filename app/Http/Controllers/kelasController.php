@@ -14,10 +14,14 @@ class kelasController extends Controller
      */
     public function index(Request $request)
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        // var_dump($data);
-        $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
-        return view('superadmin.kelas.index', ['data' => $kelas, 'kelas' => $data]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data['id'] = $request->session()->get('id_sekolah');
+            // var_dump($data);
+            $kelas = DB::table('kelas')->where('id_sekolah', $data['id'])->get();
+            return view('superadmin.kelas.index', ['data' => $kelas, 'kelas' => $data]);
+        }
     }
 
     /**

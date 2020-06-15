@@ -43,11 +43,29 @@
                     <div class="text-left">
                       <i class="fas fa-table mr-1"></i>DataTable Example
                     </div>
-                      {{-- <div class="ml-auto">
-                        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Admin</a>
+                       <div class="ml-auto">
+                           <form action="{{route('filterabsen')}}" method="post">
+                               @csrf
+                               <div class="row">
+                                    <div class="col-9">
+                                      <select class="form-control" name="id_kelas" id="id_kelas">
+                                          <option value="">pilih kelas siswa</option>
+                                          @foreach ($kelas as $kela)
+                                          
+                                          <option value="{{$kela->id_kelas}}">{{$kela->nama_kelas}} </option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="col-2">
+                                      <button type="submit" class="btn btn-success">Pilih</button>
+                                    </div>
+                                  </div>
+                             </form>
+                        <!--<a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Admin</a>-->
   
-                      </div> --}}
-                  </div> <div class="card-body">
+                      </div> 
+                  </div>
+                   <div class="card-body">
                       <div class="table-responsive">
                           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                               <thead>

@@ -12,15 +12,19 @@ class SuperAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->get();
-        // dd($admin);
-        $sekolah = DB::table('sekolah')->get();
-        return view('superadmin.admin.index', [
-            'admin' => $admin,
-            'sekolah' => $sekolah
-        ]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $admin = DB::table('admin')->join('sekolah', 'admin.id_sekolah', '=', 'sekolah.id_sekolah')->get();
+            // dd($admin);
+            $sekolah = DB::table('sekolah')->get();
+            return view('superadmin.admin.index', [
+                'admin' => $admin,
+                'sekolah' => $sekolah
+            ]);
+        }
     }
 
     /**

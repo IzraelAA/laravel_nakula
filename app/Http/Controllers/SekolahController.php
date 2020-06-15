@@ -13,14 +13,17 @@ class SekolahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('sekolah')->get();
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data = DB::table('sekolah')->get();
 
-        
-        // print_r($data); die;
-        return view ('superadmin.sekolah.index',['data' => $data]);
-        
+
+            // print_r($data); die;
+            return view('superadmin.sekolah.index', ['data' => $data]);
+        }
     }
 
     /**
@@ -34,7 +37,7 @@ class SekolahController extends Controller
         $data['nama'] = $request->session()->get('nama_sekolah');
         $data['name'] = $request->session()->get('name');
         // print_r($data);
-        return view ('superadmin.sekolah',['data' => $data]);
+        return view('superadmin.sekolah', ['data' => $data]);
     }
 
     /**
@@ -43,7 +46,7 @@ class SekolahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   
+
     /**
      * Display the specified resource.
      *
@@ -63,10 +66,10 @@ class SekolahController extends Controller
      */
     public function edit($id)
     {
-        $admin = DB::table('sekolah')->where('id_sekolah',$id)->get();
+        $admin = DB::table('sekolah')->where('id_sekolah', $id)->get();
         // var_dump($admin);die;
 
-        return view ('superadmin.sekolah.update',['admin' => $admin]);
+        return view('superadmin.sekolah.update', ['admin' => $admin]);
     }
 
     /**
@@ -79,28 +82,26 @@ class SekolahController extends Controller
     public function update(Request $request, $id)
     {
         DB::table('sekolah')
-        ->where('id_sekolah',$id)
-        ->update(['nama_sekolah' => $request->nama_sekolah]);
+            ->where('id_sekolah', $id)
+            ->update(['nama_sekolah' => $request->nama_sekolah]);
 
         return redirect()->route('sekolah.index')->with('create', 'Data Berhasil Diupdate!!');
-        
-    
     }
 
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'logo' => 'required',
         ]);
         $file = $request->file('logo');
-  
+
 
         // isi dengan nama folder tempat kemana file diupload
         $tujuan_upload = 'assets/logo';
 
         // upload file
-        $file->move($tujuan_upload,$file->getClientOriginalName());
+        $file->move($tujuan_upload, $file->getClientOriginalName());
         DB::table('sekolah')->insert([
             'nama_sekolah' => request('name'),
             'logo' => $file->getClientOriginalName()
@@ -118,8 +119,8 @@ class SekolahController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('sekolah')->where('id_sekolah',$id)->delete();
-        
+        DB::table('sekolah')->where('id_sekolah', $id)->delete();
+
         return redirect()->route('sekolah.index')->with('create', 'Data Berhasil Dihapus!!');
     }
 }

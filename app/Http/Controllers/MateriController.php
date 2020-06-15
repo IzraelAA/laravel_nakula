@@ -14,23 +14,27 @@ class MateriController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
 
-        $data['id'] = $request->session()->get('id_sekolah');
-        $join = DB::table('mata_pelajaran')
-            ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
-            ->where('guru.id_sekolah', $data['id'])->get();
-        $view = DB::table('materi')
-            ->join('kelas', 'materi.id_kelas', '=', 'kelas.id_kelas')
-            ->join('guru', 'materi.id_guru', '=', 'guru.id_guru')
-            ->join('mata_pelajaran', 'materi.id_mapel', '=', 'mata_pelajaran.id_mapel')
-            ->where('guru.id_sekolah', $data['id'])->get();
-        // dd($view);
-        // $materi = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        return view('superadmin.materi.index', [
-            'view' => $view,
-            'data' => $data,
-            'join' => $join
-        ]);
+            $data['id'] = $request->session()->get('id_sekolah');
+            $join = DB::table('mata_pelajaran')
+                ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
+                ->where('guru.id_sekolah', $data['id'])->get();
+            $view = DB::table('materi')
+                ->join('kelas', 'materi.id_kelas', '=', 'kelas.id_kelas')
+                ->join('guru', 'materi.id_guru', '=', 'guru.id_guru')
+                ->join('mata_pelajaran', 'materi.id_mapel', '=', 'mata_pelajaran.id_mapel')
+                ->where('guru.id_sekolah', $data['id'])->get();
+            // dd($view);
+            // $materi = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+            return view('superadmin.materi.index', [
+                'view' => $view,
+                'data' => $data,
+                'join' => $join
+            ]);
+        }
     }
 
     /**

@@ -18,13 +18,16 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
 
+            $data['id'] = $request->session()->get('id_sekolah');
+            $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+            // var_dump($mapel);
 
-        $data['id'] = $request->session()->get('id_sekolah');
-        $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
-        // var_dump($mapel);
-
-        return view('superadmin.guru.index', ['data' => $mapel]);
+            return view('superadmin.guru.index', ['data' => $mapel]);
+        }
     }
 
     public function dashboard()
@@ -69,7 +72,8 @@ class AdminController extends Controller
     public function create(Request $request)
     {
         $data['id'] = $request->session()->get('id_sekolah');
-
+        // $mapel = DB::table('guru')->where('id_sekolah', $data['id'])->get();
+        // var_dump($mapel);
         return view('superadmin.guru.insert', ['data' => $data]);
     }
 

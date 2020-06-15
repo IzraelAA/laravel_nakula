@@ -15,14 +15,18 @@ class GuruSiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $guru['id_guru'] = $request->session()->get('id_guru');
-        $data = DB::table('mata_pelajaran')
-            ->join('kelas', 'mata_pelajaran.id_kelas', '=', 'kelas.id_kelas')
-            ->where('id_guru', $guru['id_guru'])->get();
-        // dd($data);
-        return view('guru.siswa.index', [
-            'data' => $data
-        ]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $guru['id_guru'] = $request->session()->get('id_guru');
+            $data = DB::table('mata_pelajaran')
+                ->join('kelas', 'mata_pelajaran.id_kelas', '=', 'kelas.id_kelas')
+                ->where('id_guru', $guru['id_guru'])->get();
+            // dd($data);
+            return view('guru.siswa.index', [
+                'data' => $data
+            ]);
+        }
     }
 
     /**

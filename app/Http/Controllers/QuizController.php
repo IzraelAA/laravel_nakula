@@ -15,23 +15,27 @@ class QuizController extends Controller
      */
     public function index(Request $request)
     {
-        $data['id'] = $request->session()->get('id_sekolah');
-        $quiz = DB::table('data_quiz')
-            ->join('mata_pelajaran', 'data_quiz.id_mapel', '=', 'mata_pelajaran.id_mapel')
-            ->join('guru', 'data_quiz.id_guru', '=', 'guru.id_guru')
-            ->join('kelas', 'data_quiz.id_kelas', '=', 'kelas.id_kelas')
-            ->where('guru.id_sekolah', $data['id'])->get();
-        // dd($quiz);
-        $relasi = DB::table('mata_pelajaran')
-            ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
-            ->where('guru.id_sekolah', $data['id'])
-            ->get();
-        // dd($relasi);
-        return view('superadmin.quiz.index', [
-            'data' => $data,
-            'relasi' => $relasi,
-            'quiz' => $quiz
-        ]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $data['id'] = $request->session()->get('id_sekolah');
+            $quiz = DB::table('data_quiz')
+                ->join('mata_pelajaran', 'data_quiz.id_mapel', '=', 'mata_pelajaran.id_mapel')
+                ->join('guru', 'data_quiz.id_guru', '=', 'guru.id_guru')
+                ->join('kelas', 'data_quiz.id_kelas', '=', 'kelas.id_kelas')
+                ->where('guru.id_sekolah', $data['id'])->get();
+            // dd($quiz);
+            $relasi = DB::table('mata_pelajaran')
+                ->join('guru', 'mata_pelajaran.id_guru', '=', 'guru.id_guru')
+                ->where('guru.id_sekolah', $data['id'])
+                ->get();
+            // dd($relasi);
+            return view('superadmin.quiz.index', [
+                'data' => $data,
+                'relasi' => $relasi,
+                'quiz' => $quiz
+            ]);
+        }
     }
 
     /**

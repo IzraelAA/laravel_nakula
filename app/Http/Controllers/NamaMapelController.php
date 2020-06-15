@@ -12,13 +12,19 @@ class NamaMapelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('nama_mapel')->get();
-        // dump($data);
-        return view ('superadmin.nama_mapel.index',[
-            'data' => $data
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $id_sekolah['id'] = $request->session()->get('id_sekolah');
+            $data = DB::table('nama_mapel')->where('id_sekolah', $id_sekolah['id'])->get();
+            // dump($data);
+            return view('superadmin.nama_mapel.index', [
+                'data' => $data,
+                'id_sekolah' => $id_sekolah
             ]);
+        }
     }
 
     /**
@@ -44,11 +50,11 @@ class NamaMapelController extends Controller
 
         ]);
         DB::table('nama_mapel')->insert([
-            'name_mapel' => request('name')
+            'name_mapel' => request('name'),
+            'id_sekolah' => request('id_sekolah')
         ]);
 
         return redirect()->route('namamapel.index')->with('create', 'Data Berhasil Ditambah!!');
-   
     }
 
     /**
@@ -70,10 +76,10 @@ class NamaMapelController extends Controller
      */
     public function edit($id)
     {
-        $nama = DB::table('nama_mapel')->where('id_napel',$id)->get();
+        $nama = DB::table('nama_mapel')->where('id_napel', $id)->get();
         // var_dump($admin);die;
 
-        return view ('superadmin.nama_mapel.update',['nama' => $nama]);
+        return view('superadmin.nama_mapel.update', ['nama' => $nama]);
     }
 
     /**
@@ -86,9 +92,9 @@ class NamaMapelController extends Controller
     public function update(Request $request, $id)
     {
         DB::table('nama_mapel')
-        ->where('id_napel',$id)
-        ->update([
-            'name_mapel' => $request->nama_mapel
+            ->where('id_napel', $id)
+            ->update([
+                'name_mapel' => $request->nama_mapel
             ]);
 
         return redirect()->route('namamapel.index')->with('create', 'Data Berhasil Diupdate!!');

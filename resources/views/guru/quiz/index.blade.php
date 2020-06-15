@@ -55,7 +55,10 @@
                                   <th scope="col">No</th>
                                   <th scope="col">Nama Quiz</th>
                                   <th scope="col">Pelajaran</th>
-                                  <th scope="col">Aksi</th>
+                                  <th scope="col">Kelas</th>
+                                  <th scope="col">Guru</th>
+                                  <th scope="col">Type</th>
+                                  <th scope="col" class="text-center">Aksi</th>
                                 </tr>
                               </thead>
                               <tbody>       
@@ -65,6 +68,9 @@
                                     <td><?= $i;?></td>
                                   <td>{{$kuy->nama_quiz}}</td>
                                   <td>{{$kuy->nama_pelajaran}}</td>
+                                  <td>{{$kuy->nama_kelas}}</td>
+                                  <td>{{$kuy->nama_guru}}</td>
+                                  <td>{{$kuy->type}}</td>
                                   <td>
                                     <a href="{{ route('guru-quiz.edit', $kuy->id_dataquiz) }}" class="btn btn-success">Lihat Quiz</a>
                                     <form action="{{ route('guru-quiz.destroy', $kuy->id_dataquiz) }}" method="POST" class="d-inline">
@@ -110,7 +116,9 @@
           @csrf
           <div class="row">
           <div class="col">
+            
             <label for="">Nama Quiz</label>
+            <input type="hidden" value="Essai" name="type" id="type">
           <input type="text" class="form-control" name="nama_quiz" id="nama_quiz" placeholder="Nama Quiz">
           </div>
         </div>
@@ -120,7 +128,7 @@
             <label for="">Mata Pelajaran</label>
           <input type="hidden"  name="id_sekolah" value="{{$data['id']}}">
             <select name="id_mapel" id="id_mapel" class="form-control">
-             @foreach ($quiz as $item)
+             @foreach ($jadwal as $item)
             <option value="{{$item->id_mapel}}">{{$item->nama_pelajaran}}</option>
              @endforeach
             </select>

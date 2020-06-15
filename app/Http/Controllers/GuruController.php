@@ -11,9 +11,13 @@ class GuruController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('superadmin.home_dashboardguru');
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            return view('superadmin.home_dashboardguru');
+        }
     }
 
     /**

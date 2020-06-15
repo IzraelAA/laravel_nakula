@@ -15,15 +15,19 @@ class GuruSoalController extends Controller
      */
     public function index(Request $request)
     {
-        $guru['id_guru'] = $request->session()->get('id_guru');
-        $data = DB::table('data_soal')
-            ->join('guru', 'data_soal.id_guru', '=', 'guru.id_guru')
-            ->join('mata_pelajaran', 'data_soal.id_mapel', '=', 'mata_pelajaran.id_mapel')
-            ->join('kelas', 'data_soal.id_kelas', '=', 'kelas.id_kelas')
-            ->where('guru.id_guru', $guru['id_guru'])
-            ->get();
-        // dd($data);
-        return view('guru.soal.index', ['data' => $data]);
+        if ($request->session()->get('id_sekolah') == "") {
+            return redirect()->route('login');
+        } else {
+            $guru['id_guru'] = $request->session()->get('id_guru');
+            $data = DB::table('data_soal')
+                ->join('guru', 'data_soal.id_guru', '=', 'guru.id_guru')
+                ->join('mata_pelajaran', 'data_soal.id_mapel', '=', 'mata_pelajaran.id_mapel')
+                ->join('kelas', 'data_soal.id_kelas', '=', 'kelas.id_kelas')
+                ->where('guru.id_guru', $guru['id_guru'])
+                ->get();
+            // dd($data);
+            return view('guru.soal.index', ['data' => $data]);
+        }
     }
 
     /**
